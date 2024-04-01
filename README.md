@@ -1,4 +1,4 @@
-# PulseRAG: Autonomous Self-Correcting Research Assistant
+﻿# PulseRAG: Autonomous Self-Correcting Research Assistant
 
 PulseRAG is an advanced Retrieval-Augmented Generation (RAG) system engineered to ingest machine learning research papers (arXiv) and synthesize highly accurate, grounded answers to complex queries. 
 
@@ -6,7 +6,7 @@ Built on a deterministic StateGraph architecture, PulseRAG features autonomous s
 
 ## Architecture
 
-1. **Ingestion & Embedding**: Documents are ingested asynchronously via a BackgroundTask API, parsed, chunked with specific token constraints and overlaps, and embedded using ll-MiniLM-L6-v2. Vectors are stored in Qdrant.
+1. **Ingestion & Embedding**: Documents are ingested asynchronously via a BackgroundTask API, parsed, chunked with specific token constraints and overlaps, and embedded using all-MiniLM-L6-v2. Vectors are stored in Qdrant.
 2. **Semantic Caching**: To minimize API latency, queries are hashed and semantically matched against a Redis cache layer. Hits bypass the LangGraph state machine entirely.
 3. **LangGraph Pipeline**: 
     - **Retrieve**: Fetches top-K vector matches from Qdrant.
@@ -16,6 +16,8 @@ Built on a deterministic StateGraph architecture, PulseRAG features autonomous s
     - **Score Hallucination**: Splits the answer into sentences and meticulously scores the "groundedness" of each sentence against the retrieved chunks, returning a final hallucination_risk percentage.
 
 ## Benchmark Results
+
+*Illustrative benchmark using a scripted mock LLM for CI to simulate real-world hallucination reduction.*
 
 PulseRAG was rigorously benchmarked against a baseline retrieve-then-generate RAG pipeline using 20 complex ML questions. The self-correction loop drastically reduces hallucination rates.
 
@@ -47,8 +49,4 @@ Navigate to http://localhost:8501 to access the Streamlit UI.
 ## Technologies Demonstrated
 - **Frameworks**: FastAPI, Streamlit, LangGraph, LangChain, Pytest
 - **Infrastructure**: Docker Compose, PostgreSQL (AsyncPG, SQLAlchemy), Redis, Qdrant
-- **Concepts**: Semantic Caching, Asynchronous Background Tasks, Agentic AI, Hallucination Detection, Multi-Agent Orchestration
-
----
-**Resume Bullet:**
-> Architected an asynchronous, self-correcting RAG pipeline (FastAPI, LangGraph) incorporating semantic caching and automated hallucination scoring, achieving an 82% reduction in ungrounded responses across benchmarks, deployed seamlessly via Docker Compose across 5 microservices.
+- **Concepts**: Semantic Caching, Asynchronous Background Tasks, Agentic AI, Hallucination Detection, Stateful Graph Orchestration

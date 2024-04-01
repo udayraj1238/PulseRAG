@@ -1,16 +1,17 @@
-
-langgraph==0.2.*           # Graph-based workflow orchestration
-langchain-core==0.3.*      # LangChain primitives (runnable interface)
-langchain-google-genai     # Gemini API (free tier is sufficient)
-sentence-transformers      # all-MiniLM-L6-v2 for embeddings (local, free)
-qdrant-client[async]       # Async Qdrant vector database client
-fastapi                    # Async API framework
-uvicorn[standard]          # ASGI server for FastAPI
-asyncpg                    # Async PostgreSQL driver
-sqlalchemy[asyncio]        # ORM (async mode)
-redis[asyncio]             # Async Redis client
-streamlit                  # Frontend UI
-arxiv                      # arXiv API Python client
-httpx                      # Async HTTP for arXiv
-python-dotenv              # Env var management
-pytest-asyncio             # Async test support
+fastapi
+uvicorn
+pydantic
+langgraph
+langchain-core
+langchain-google-genai
+sentence-transformers
+qdrant-client
+arxiv
+streamlit
+python-dotenv
+asyncpg
+sqlalchemy
+aiosqlite
+redis
+requests
+numpy

@@ -1,4 +1,3 @@
-
 from langgraph.graph import StateGraph, END
 from pipeline.state import RAGState
 from pipeline.nodes.retrieve import retrieve_node
@@ -7,28 +6,13 @@ from pipeline.nodes.rewrite_query import rewrite_query_node
 from pipeline.nodes.generate import generate_node
 from pipeline.nodes.score_hallucination import score_hallucination_node
 
-def should_rewrite(state: RAGState) -> str:
-    '''
-    Conditional edge: after grading, decide whether to rewrite or generate.
-    
-    Rewrite if: fewer than 2 relevant chunks AND fewer than 2 retrieval attempts.
-    If we've already tried twice, proceed to generate with whatever we have
-    (to avoid infinite loops).
-    '''
-    if state["relevant_chunk_count"] < 2 and state["retrieval_attempts"] < 2:
+def should_rewrite(state: dict) -> str:
+    if state.get("relevant_chunk_count", 0) < 2 and state.get("retrieval_attempts", 0) < 2:
         return "rewrite"
     return "generate"
 
-def should_flag_or_finish(state: RAGState) -> str:
-    '''
-    Conditional edge: after hallucination scoring, decide outcome.
-    '''
-    if state["hallucination_risk"] > 0.4:
-        return "flagged"
-    return "clean"
-
 def build_graph() -> StateGraph:
-    graph = StateGraph(RAGState)
+    graph = StateGraph(dict)
 
     # Add all nodes
     graph.add_node("retrieve", retrieve_node)
@@ -53,16 +37,11 @@ def build_graph() -> StateGraph:
         }
     )
     
-    # After rewriting, go back to retrieve (with new query)
+    # After rewriting, go back to retrieve
     graph.add_edge("rewrite_query", "retrieve")
     
-    # After generating, always score for hallucination
+    # After generating, go to score hallucination
     graph.add_edge("generate", "score_hallucination")
-    
-    # After scoring, end (the flag status is in state)
     graph.add_edge("score_hallucination", END)
 
     return graph.compile()
-
-# Singleton compile once, reuse
-RAG_PIPELINE = build_graph()

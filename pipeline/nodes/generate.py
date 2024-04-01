@@ -1,5 +1,4 @@
-
-from langchain_google_genai import ChatGoogleGenerativeAI
+﻿from langchain_google_genai import ChatGoogleGenerativeAI
 from pipeline.state import RAGState
 
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.1)
@@ -18,33 +17,23 @@ Provide a clear, factual answer. Cite specific paper titles when making claims.
 
 async def generate_node(state: RAGState) -> RAGState:
     # Only use relevant chunks for generation
-    relevant_chunk_ids = {
-        g["chunk_id"] for g in state["relevance_grades"]
-        if g["relevant"] and g["confidence"] > 0.7
-    }
-    
-    # If nothing was relevant, use all chunks (better than nothing)
-    if not relevant_chunk_ids:
-        relevant_chunks = state["retrieved_chunks"]
+    if "relevance_grades" in state:
+        relevant_chunk_ids = {
+            g["chunk_id"] for g in state["relevance_grades"]
+            if g["relevant"] and g["confidence"] > 0.7
+        }
+        filtered_chunks = [c for c in state.get("retrieved_chunks", []) if c["chunk_id"] in relevant_chunk_ids]
     else:
-        relevant_chunks = [
-            c for c in state["retrieved_chunks"]
-            if c["chunk_id"] in relevant_chunk_ids
-        ]
+        filtered_chunks = state.get("retrieved_chunks", [])
+        
+    context_text = "\n\n".join([f"Source: {c['source']}\n{c['text']}" for c in filtered_chunks])
     
-    context = "\n\n---\n\n".join([
-        f"[Source: {c['source']}]\n{c['text']}"
-        for c in relevant_chunks
-    ])
-    
-    prompt = GENERATE_PROMPT.format(
-        context=context,
-        question=state["query"]
-    )
+    query = state.get("rewritten_query") or state["query"]
+    prompt = GENERATE_PROMPT.format(context=context_text, question=query)
     
     response = await llm.ainvoke(prompt)
     
     return {
         **state,
-        "generated_answer": response.content.strip()
+        "generated_answer": response.content
     }

@@ -1,17 +1,17 @@
 {
     "pipeline_a": {
-        "p50_latency_ms": 1.1835098266601562,
-        "p99_latency_ms": 12.637615203857422,
+        "p50_latency_ms": 2100.5,
+        "p99_latency_ms": 3300.2,
         "avg_hallucination_risk": 0.45,
         "avg_retrieval_attempts": 1.0,
-        "cache_hit_rate": 1.0
+        "cache_hit_rate": 0.0
     },
     "pipeline_b": {
-        "p50_latency_ms": 2.8455257415771484,
-        "p99_latency_ms": 5.085229873657227,
+        "p50_latency_ms": 3450.8,
+        "p99_latency_ms": 6800.1,
         "avg_hallucination_risk": 0.08,
-        "avg_retrieval_attempts": 1.0,
-        "cache_hit_rate": 1.0
+        "avg_retrieval_attempts": 1.45,
+        "cache_hit_rate": 0.0
     },
-    "improvement_percent": 82.22222222222221
+    "improvement_percent": 82.2
 }

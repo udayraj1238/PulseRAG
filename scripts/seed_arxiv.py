@@ -1,58 +1,60 @@
-
 import arxiv
 import asyncio
+import json
+import os
+import uuid
 from ingestion.chunker import chunk_text
 from ingestion.embedder import embed_batch
-from ingestion.qdrant_writer import QdrantWriter
+from ingestion.qdrant_writer import init_qdrant, upsert_chunks
 
-async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
+async def ingest_paper(arxiv_id: str):
     '''
-    Download and ingest 500 arXiv papers from the cs.AI category.
-    This is your one-time setup script.
+    Fetch, chunk, embed, and ingest a single paper by arXiv ID.
     '''
     client = arxiv.Client()
-    search = arxiv.Search(
-        query=f"cat:{category}",
-        max_results=max_results,
-        sort_by=arxiv.SortCriterion.SubmittedDate
+    search = arxiv.Search(id_list=[arxiv_id])
+    
+    try:
+        paper = next(client.results(search))
+    except StopIteration:
+        raise ValueError(f"Paper with ID {arxiv_id} not found.")
+
+    await init_qdrant()
+    
+    os.makedirs("data/papers", exist_ok=True)
+    
+    full_text = f"Title: {paper.title}\n\nAbstract: {paper.summary}"
+    
+    raw_chunks = chunk_text(
+        text=full_text,
+        chunk_size=400,
+        overlap=80
     )
     
-    writer = QdrantWriter()
-    await writer.ensure_collection_exists()
+    vectors = embed_batch([c["text"] for c in raw_chunks])
     
-    papers_processed = 0
-    for paper in client.results(search):
-        # Combine title + abstract + (truncated) full text if available
-        full_text = f"Title: {paper.title}\n\nAbstract: {paper.summary}"
-        
-        # Chunk the text
-        chunks = chunk_text(
-            text=full_text,
-            chunk_size=400,      # ~400 tokens per chunk
-            overlap=80           # 80-token overlap between chunks
-        )
-        
-        # Embed all chunks for this paper
-        vectors = embed_batch([c["text"] for c in chunks])
-        
-        # Write to Qdrant
-        await writer.upsert_chunks(
-            chunks=chunks,
-            vectors=vectors,
-            metadata={
-                "paper_title": paper.title,
-                "arxiv_id": paper.entry_id.split("/")[-1],
-                "authors": [a.name for a in paper.authors],
-                "category": category,
-                "published": paper.published.isoformat()
-            }
-        )
-        
-        papers_processed += 1
-        if papers_processed % 50 == 0:
-            print(f"Processed {papers_processed}/{max_results} papers")
+    metadata = {
+        "paper_title": paper.title,
+        "arxiv_id": paper.entry_id.split("/")[-1],
+        "authors": [a.name for a in paper.authors],
+        "category": paper.primary_category,
+        "published": paper.published.isoformat()
+    }
     
-    print(f"Seeding complete. {papers_processed} papers ingested.")
+    json_path = f"data/papers/{metadata['arxiv_id']}.json"
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(metadata, f, indent=4)
+    
+    formatted_chunks = []
+    for idx, rc in enumerate(raw_chunks):
+        formatted_chunks.append({
+            "id": str(uuid.uuid4()),
+            "arxiv_id": metadata["arxiv_id"],
+            "paper_title": metadata["paper_title"],
+            "text": rc["text"],
+            "chunk_index": idx
+        })
 
-if __name__ == "__main__":
-    asyncio.run(seed_papers())
+    await upsert_chunks(chunks=formatted_chunks, vectors=vectors)
+    return metadata
+

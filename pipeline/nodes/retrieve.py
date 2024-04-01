@@ -1,14 +1,12 @@
-
-import time
+ï»¿import time
 from cache.semantic_cache import SemanticCache
-from ingestion.qdrant_writer import QdrantClient
+from ingestion.qdrant_writer import qdrant
 
-qdrant = QdrantClient()
 cache = SemanticCache()
 
-async def retrieve_node(state: RAGState) -> RAGState:
+async def retrieve_node(state: dict) -> dict:
     '''
-    1. Check semantic cache — if a very similar query was answered before, return cached chunks.
+    1. Check semantic cache - if a very similar query was answered before, return cached chunks.
     2. Otherwise, embed the query and run vector search in Qdrant.
     3. Return top-5 chunks with their scores.
     '''
@@ -29,20 +27,21 @@ async def retrieve_node(state: RAGState) -> RAGState:
     query_vector = embed_text(query)  # Returns a 384-dim float list
     
     # Search Qdrant
-    results = await qdrant.search(
+    response = await qdrant.query_points(
         collection_name="arxiv_papers",
-        query_vector=query_vector,
+        query=query_vector,
         limit=5,
         with_payload=True
     )
+    results = response.points
     
     chunks = [
         {
-            "chunk_id": r.id,
+            "chunk_id": str(r.id),
             "text": r.payload["text"],
             "source": r.payload["paper_title"],
             "arxiv_id": r.payload["arxiv_id"],
-            "score": r.score
+            "score": float(r.score)
         }
         for r in results
     ]

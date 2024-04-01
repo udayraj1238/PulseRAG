@@ -1,4 +1,4 @@
-
+﻿
 import json
 import re
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -32,7 +32,7 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
     
     sources_text = "\n\n---\n\n".join([
         f"[{c['chunk_id']}] (Source: {c['source']})\n{c['text']}"
-        for c in state["retrieved_chunks"]
+        for c in state.get("retrieved_chunks", [])
     ])
     
     scores: list[HallucinationScore] = []

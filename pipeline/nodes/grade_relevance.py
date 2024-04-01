@@ -1,4 +1,4 @@
-
+ï»¿
 import json
 from langchain_google_genai import ChatGoogleGenerativeAI
 from pipeline.state import RAGState, RelevanceGrade
@@ -41,7 +41,7 @@ async def grade_relevance_node(state: RAGState) -> RAGState:
                 chunk_id=chunk["chunk_id"],
                 relevant=False,
                 confidence=0.0,
-                reason="Grading failed — parse error"
+                reason="Grading failed - parse error"
             )
         grades.append(grade)
     

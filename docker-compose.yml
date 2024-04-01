@@ -1,5 +1,4 @@
-
-version: "3.9"
+version: '3.8'
 
 services:
   qdrant:
@@ -12,9 +11,9 @@ services:
   postgres:
     image: postgres:16-alpine
     environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
       POSTGRES_DB: pulserag
-      POSTGRES_USER: pulserag
-      POSTGRES_PASSWORD: pulserag
     ports:
       - "5432:5432"
     volumes:
@@ -27,26 +26,24 @@ services:
 
   api:
     build: .
-    command: uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
     ports:
       - "8000:8000"
     environment:
-      - QDRANT_URL=http://qdrant:6333
-      - POSTGRES_URL=postgresql+asyncpg://pulserag:pulserag@postgres:5432/pulserag
+      - DATABASE_URL=postgresql+asyncpg://user:password@postgres:5432/pulserag
       - REDIS_URL=redis://redis:6379
-      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - QDRANT_URL=http://qdrant:6333
     depends_on:
-      - qdrant
       - postgres
       - redis
-    volumes:
-      - .:/app
+      - qdrant
 
   ui:
     build: .
     command: streamlit run ui/app.py --server.port 8501
     ports:
       - "8501:8501"
+    environment:
+      - API_URL=http://api:8000
     depends_on:
       - api
 
