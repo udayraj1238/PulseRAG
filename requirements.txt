@@ -1,3 +1,4 @@
 
 langgraph==0.2.*           # Graph-based workflow orchestration
 langchain-core==0.3.*      # LangChain primitives (runnable interface)
+langchain-google-genai     # Gemini API (free tier is sufficient)
