@@ -7,3 +7,4 @@ qdrant-client[async]       # Async Qdrant vector database client
 fastapi                    # Async API framework
 uvicorn[standard]          # ASGI server for FastAPI
 asyncpg                    # Async PostgreSQL driver
+sqlalchemy[asyncio]        # ORM (async mode)
