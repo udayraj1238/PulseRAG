@@ -6,3 +6,4 @@ sentence-transformers      # all-MiniLM-L6-v2 for embeddings (local, free)
 qdrant-client[async]       # Async Qdrant vector database client
 fastapi                    # Async API framework
 uvicorn[standard]          # ASGI server for FastAPI
+asyncpg                    # Async PostgreSQL driver
