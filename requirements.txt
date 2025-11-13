@@ -9,3 +9,4 @@ uvicorn[standard]          # ASGI server for FastAPI
 asyncpg                    # Async PostgreSQL driver
 sqlalchemy[asyncio]        # ORM (async mode)
 redis[asyncio]             # Async Redis client
+streamlit                  # Frontend UI
