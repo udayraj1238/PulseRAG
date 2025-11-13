@@ -11,3 +11,4 @@ sqlalchemy[asyncio]        # ORM (async mode)
 redis[asyncio]             # Async Redis client
 streamlit                  # Frontend UI
 arxiv                      # arXiv API Python client
+httpx                      # Async HTTP for arXiv
