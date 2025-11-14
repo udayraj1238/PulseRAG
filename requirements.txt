@@ -13,3 +13,4 @@ streamlit                  # Frontend UI
 arxiv                      # arXiv API Python client
 httpx                      # Async HTTP for arXiv
 python-dotenv              # Env var management
+pytest-asyncio             # Async test support
