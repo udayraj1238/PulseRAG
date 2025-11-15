@@ -4,3 +4,4 @@ class RelevanceGrade(TypedDict):
     chunk_id: str
     relevant: bool
     confidence: float
+    reason: str
