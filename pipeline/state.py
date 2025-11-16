@@ -5,3 +5,4 @@ class RelevanceGrade(TypedDict):
     relevant: bool
     confidence: float
     reason: str
+class HallucinationScore(TypedDict):
