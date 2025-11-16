@@ -6,3 +6,4 @@ class RelevanceGrade(TypedDict):
     confidence: float
     reason: str
 class HallucinationScore(TypedDict):
+    sentence: str
