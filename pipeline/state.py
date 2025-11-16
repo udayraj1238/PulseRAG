@@ -8,3 +8,4 @@ class RelevanceGrade(TypedDict):
 class HallucinationScore(TypedDict):
     sentence: str
     grounded: bool
+    confidence: float
