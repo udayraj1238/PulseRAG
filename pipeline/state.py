@@ -7,3 +7,4 @@ class RelevanceGrade(TypedDict):
     reason: str
 class HallucinationScore(TypedDict):
     sentence: str
+    grounded: bool
