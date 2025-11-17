@@ -9,3 +9,4 @@ class HallucinationScore(TypedDict):
     sentence: str
     grounded: bool
     confidence: float
+    supporting_chunk_ids: List[str]
