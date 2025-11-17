@@ -11,3 +11,4 @@ class HallucinationScore(TypedDict):
     confidence: float
     supporting_chunk_ids: List[str]
 class RAGState(TypedDict):
+    # Input
