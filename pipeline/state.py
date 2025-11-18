@@ -13,3 +13,4 @@ class HallucinationScore(TypedDict):
 class RAGState(TypedDict):
     # Input
     query: str
+    conversation_id: str
