@@ -12,3 +12,4 @@ class HallucinationScore(TypedDict):
     supporting_chunk_ids: List[str]
 class RAGState(TypedDict):
     # Input
+    query: str
