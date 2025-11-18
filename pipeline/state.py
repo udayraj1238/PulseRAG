@@ -14,3 +14,5 @@ class RAGState(TypedDict):
     # Input
     query: str
     conversation_id: str
+    
+    # After retrieval
