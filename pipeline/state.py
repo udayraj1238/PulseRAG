@@ -16,3 +16,4 @@ class RAGState(TypedDict):
     conversation_id: str
     
     # After retrieval
+    retrieved_chunks: List[dict]  # Each: {chunk_id, text, source, score}
