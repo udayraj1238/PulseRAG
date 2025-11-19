@@ -19,3 +19,4 @@ class RAGState(TypedDict):
     retrieved_chunks: List[dict]  # Each: {chunk_id, text, source, score}
     
     # After relevance grading
+    relevance_grades: List[RelevanceGrade]
