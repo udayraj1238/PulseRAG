@@ -23,3 +23,4 @@ class RAGState(TypedDict):
     relevant_chunk_count: int
     
     # After query rewriting (if triggered)
+    rewritten_query: Optional[str]
