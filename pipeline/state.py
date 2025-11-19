@@ -21,3 +21,5 @@ class RAGState(TypedDict):
     # After relevance grading
     relevance_grades: List[RelevanceGrade]
     relevant_chunk_count: int
+    
+    # After query rewriting (if triggered)
