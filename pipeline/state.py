@@ -27,3 +27,4 @@ class RAGState(TypedDict):
     retrieval_attempts: int  # Prevents infinite rewrite loops
     
     # After generation
+    generated_answer: str
