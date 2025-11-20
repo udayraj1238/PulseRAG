@@ -28,3 +28,5 @@ class RAGState(TypedDict):
     
     # After generation
     generated_answer: str
+    
+    # After hallucination scoring
