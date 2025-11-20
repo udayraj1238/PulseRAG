@@ -25,3 +25,5 @@ class RAGState(TypedDict):
     # After query rewriting (if triggered)
     rewritten_query: Optional[str]
     retrieval_attempts: int  # Prevents infinite rewrite loops
+    
+    # After generation
