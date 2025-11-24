@@ -7,3 +7,4 @@ from pipeline.nodes.rewrite_query import rewrite_query_node
 from pipeline.nodes.generate import generate_node
 from pipeline.nodes.score_hallucination import score_hallucination_node
 
+def should_rewrite(state: RAGState) -> str:
