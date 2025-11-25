@@ -8,3 +8,4 @@ from pipeline.nodes.generate import generate_node
 from pipeline.nodes.score_hallucination import score_hallucination_node
 
 def should_rewrite(state: RAGState) -> str:
+    '''
