@@ -11,3 +11,4 @@ def should_rewrite(state: RAGState) -> str:
     '''
     Conditional edge: after grading, decide whether to rewrite or generate.
     
+    Rewrite if: fewer than 2 relevant chunks AND fewer than 2 retrieval attempts.
