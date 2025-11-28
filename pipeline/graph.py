@@ -15,3 +15,4 @@ def should_rewrite(state: RAGState) -> str:
     If we've already tried twice, proceed to generate with whatever we have
     (to avoid infinite loops).
     '''
+    if state["relevant_chunk_count"] < 2 and state["retrieval_attempts"] < 2:
