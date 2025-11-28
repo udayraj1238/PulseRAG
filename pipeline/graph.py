@@ -14,3 +14,4 @@ def should_rewrite(state: RAGState) -> str:
     Rewrite if: fewer than 2 relevant chunks AND fewer than 2 retrieval attempts.
     If we've already tried twice, proceed to generate with whatever we have
     (to avoid infinite loops).
+    '''
