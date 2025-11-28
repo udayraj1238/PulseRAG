@@ -16,3 +16,4 @@ def should_rewrite(state: RAGState) -> str:
     (to avoid infinite loops).
     '''
     if state["relevant_chunk_count"] < 2 and state["retrieval_attempts"] < 2:
+        return "rewrite"
