@@ -19,3 +19,4 @@ def should_rewrite(state: RAGState) -> str:
         return "rewrite"
     return "generate"
 
+def should_flag_or_finish(state: RAGState) -> str:
