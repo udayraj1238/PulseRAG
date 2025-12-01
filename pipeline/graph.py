@@ -24,3 +24,4 @@ def should_flag_or_finish(state: RAGState) -> str:
     Conditional edge: after hallucination scoring, decide outcome.
     '''
     if state["hallucination_risk"] > 0.4:
+        return "flagged"
