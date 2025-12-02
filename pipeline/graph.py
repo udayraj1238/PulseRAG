@@ -25,3 +25,4 @@ def should_flag_or_finish(state: RAGState) -> str:
     '''
     if state["hallucination_risk"] > 0.4:
         return "flagged"
+    return "clean"
