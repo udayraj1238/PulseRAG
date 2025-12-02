@@ -27,3 +27,4 @@ def should_flag_or_finish(state: RAGState) -> str:
         return "flagged"
     return "clean"
 
+def build_graph() -> StateGraph:
