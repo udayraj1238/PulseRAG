@@ -29,3 +29,4 @@ def should_flag_or_finish(state: RAGState) -> str:
 
 def build_graph() -> StateGraph:
     graph = StateGraph(RAGState)
+
