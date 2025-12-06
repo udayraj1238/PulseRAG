@@ -35,3 +35,4 @@ def build_graph() -> StateGraph:
     graph.add_node("grade_relevance", grade_relevance_node)
     graph.add_node("rewrite_query", rewrite_query_node)
     graph.add_node("generate", generate_node)
+    graph.add_node("score_hallucination", score_hallucination_node)
