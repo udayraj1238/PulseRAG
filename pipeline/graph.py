@@ -33,3 +33,4 @@ def build_graph() -> StateGraph:
     # Add all nodes
     graph.add_node("retrieve", retrieve_node)
     graph.add_node("grade_relevance", grade_relevance_node)
+    graph.add_node("rewrite_query", rewrite_query_node)
