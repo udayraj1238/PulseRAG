@@ -30,3 +30,6 @@ def should_flag_or_finish(state: RAGState) -> str:
 def build_graph() -> StateGraph:
     graph = StateGraph(RAGState)
 
+    # Add all nodes
+    graph.add_node("retrieve", retrieve_node)
+    graph.add_node("grade_relevance", grade_relevance_node)
