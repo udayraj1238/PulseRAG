@@ -39,3 +39,4 @@ def build_graph() -> StateGraph:
 
     # Entry point
     graph.set_entry_point("retrieve")
+
