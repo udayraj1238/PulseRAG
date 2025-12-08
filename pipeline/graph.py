@@ -37,3 +37,5 @@ def build_graph() -> StateGraph:
     graph.add_node("generate", generate_node)
     graph.add_node("score_hallucination", score_hallucination_node)
 
+    # Entry point
+    graph.set_entry_point("retrieve")
