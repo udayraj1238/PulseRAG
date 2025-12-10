@@ -41,3 +41,5 @@ def build_graph() -> StateGraph:
     graph.set_entry_point("retrieve")
 
     # Edges
+    graph.add_edge("retrieve", "grade_relevance")
+    
