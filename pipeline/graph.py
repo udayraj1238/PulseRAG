@@ -47,3 +47,4 @@ def build_graph() -> StateGraph:
     graph.add_conditional_edges(
         "grade_relevance",
         should_rewrite,
+        {
