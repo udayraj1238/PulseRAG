@@ -48,3 +48,4 @@ def build_graph() -> StateGraph:
         "grade_relevance",
         should_rewrite,
         {
+            "rewrite": "rewrite_query",
