@@ -49,3 +49,4 @@ def build_graph() -> StateGraph:
         should_rewrite,
         {
             "rewrite": "rewrite_query",
+            "generate": "generate"
