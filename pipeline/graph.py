@@ -51,3 +51,4 @@ def build_graph() -> StateGraph:
             "rewrite": "rewrite_query",
             "generate": "generate"
         }
+    )
