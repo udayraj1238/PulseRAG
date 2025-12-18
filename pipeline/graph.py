@@ -57,3 +57,4 @@ def build_graph() -> StateGraph:
     graph.add_edge("rewrite_query", "retrieve")
     
     # After generating, always score for hallucination
+    graph.add_edge("generate", "score_hallucination")
