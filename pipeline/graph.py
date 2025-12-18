@@ -56,3 +56,4 @@ def build_graph() -> StateGraph:
     # After rewriting, go back to retrieve (with new query)
     graph.add_edge("rewrite_query", "retrieve")
     
+    # After generating, always score for hallucination
