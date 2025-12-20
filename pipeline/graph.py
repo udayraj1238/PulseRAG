@@ -62,3 +62,4 @@ def build_graph() -> StateGraph:
     # After scoring, end (the flag status is in state)
     graph.add_edge("score_hallucination", END)
 
+    return graph.compile()
