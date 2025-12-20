@@ -63,3 +63,4 @@ def build_graph() -> StateGraph:
     graph.add_edge("score_hallucination", END)
 
     return graph.compile()
+
