@@ -65,3 +65,4 @@ def build_graph() -> StateGraph:
     return graph.compile()
 
 # Singleton compile once, reuse
+RAG_PIPELINE = build_graph()
