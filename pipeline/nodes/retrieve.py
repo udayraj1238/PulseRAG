@@ -5,3 +5,4 @@ from ingestion.qdrant_writer import QdrantClient
 
 qdrant = QdrantClient()
 cache = SemanticCache()
+
