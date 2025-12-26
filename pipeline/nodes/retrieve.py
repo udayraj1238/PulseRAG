@@ -12,3 +12,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
     2. Otherwise, embed the query and run vector search in Qdrant.
     3. Return top-5 chunks with their scores.
     '''
+    query = state.get("rewritten_query") or state["query"]
