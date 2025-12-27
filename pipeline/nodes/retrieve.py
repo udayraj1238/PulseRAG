@@ -14,3 +14,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
     '''
     query = state.get("rewritten_query") or state["query"]
     
+    # Check cache first
