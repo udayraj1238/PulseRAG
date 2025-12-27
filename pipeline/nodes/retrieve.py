@@ -13,3 +13,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
     3. Return top-5 chunks with their scores.
     '''
     query = state.get("rewritten_query") or state["query"]
+    
