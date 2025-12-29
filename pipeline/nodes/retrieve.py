@@ -18,3 +18,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
     cached = await cache.lookup(query)
     if cached:
         return {
+            **state,
