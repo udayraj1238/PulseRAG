@@ -19,3 +19,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
     if cached:
         return {
             **state,
+            "retrieved_chunks": cached["chunks"],
