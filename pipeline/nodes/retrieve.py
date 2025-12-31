@@ -24,3 +24,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
             "retrieval_attempts": state.get("retrieval_attempts", 0) + 1
         }
     
+    # Embed the query
