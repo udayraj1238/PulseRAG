@@ -27,3 +27,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
     # Embed the query
     from ingestion.embedder import embed_text
     query_vector = embed_text(query)  # Returns a 384-dim float list
+    
