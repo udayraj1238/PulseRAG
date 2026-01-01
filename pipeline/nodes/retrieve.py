@@ -30,3 +30,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
     
     # Search Qdrant
     results = await qdrant.search(
+        collection_name="arxiv_papers",
