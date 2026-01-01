@@ -29,3 +29,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
     query_vector = embed_text(query)  # Returns a 384-dim float list
     
     # Search Qdrant
+    results = await qdrant.search(
