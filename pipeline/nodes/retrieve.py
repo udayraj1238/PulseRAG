@@ -34,3 +34,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
         query_vector=query_vector,
         limit=5,
         with_payload=True
+    )
