@@ -33,3 +33,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
         collection_name="arxiv_papers",
         query_vector=query_vector,
         limit=5,
+        with_payload=True
