@@ -37,3 +37,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
     )
     
     chunks = [
+        {
