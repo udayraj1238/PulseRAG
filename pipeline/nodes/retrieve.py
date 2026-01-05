@@ -40,3 +40,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
         {
             "chunk_id": r.id,
             "text": r.payload["text"],
+            "source": r.payload["paper_title"],
