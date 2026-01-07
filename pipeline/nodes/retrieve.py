@@ -44,3 +44,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
             "arxiv_id": r.payload["arxiv_id"],
             "score": r.score
         }
+        for r in results
