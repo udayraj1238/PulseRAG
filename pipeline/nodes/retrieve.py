@@ -43,3 +43,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
             "source": r.payload["paper_title"],
             "arxiv_id": r.payload["arxiv_id"],
             "score": r.score
+        }
