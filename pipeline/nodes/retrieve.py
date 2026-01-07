@@ -45,3 +45,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
             "score": r.score
         }
         for r in results
+    ]
