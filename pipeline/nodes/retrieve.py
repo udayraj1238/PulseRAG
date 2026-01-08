@@ -47,3 +47,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
         for r in results
     ]
     
+    return {
