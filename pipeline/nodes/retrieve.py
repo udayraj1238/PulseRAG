@@ -49,3 +49,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
     
     return {
         **state,
+        "retrieved_chunks": chunks,
