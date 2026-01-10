@@ -51,3 +51,4 @@ async def retrieve_node(state: RAGState) -> RAGState:
         **state,
         "retrieved_chunks": chunks,
         "cache_hit": False,
+        "retrieval_attempts": state.get("retrieval_attempts", 0) + 1
