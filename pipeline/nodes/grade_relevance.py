@@ -5,3 +5,4 @@ from pipeline.state import RAGState, RelevanceGrade
 
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0)
 
+GRADE_PROMPT = '''You are a relevance grader. 
