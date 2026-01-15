@@ -12,3 +12,4 @@ User question: {question}
 
 Retrieved chunk:
 {chunk_text}
+
