@@ -11,3 +11,4 @@ Given a user question and a retrieved text chunk, decide whether the chunk is re
 User question: {question}
 
 Retrieved chunk:
+{chunk_text}
