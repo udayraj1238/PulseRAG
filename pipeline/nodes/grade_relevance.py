@@ -13,3 +13,4 @@ User question: {question}
 Retrieved chunk:
 {chunk_text}
 
+Respond ONLY with a JSON object, no preamble, no markdown. Example:
