@@ -16,3 +16,4 @@ Retrieved chunk:
 Respond ONLY with a JSON object, no preamble, no markdown. Example:
 {{"relevant": true, "confidence": 0.92, "reason": "Chunk directly discusses the attention mechanism in transformers"}}
 or
+{{"relevant": false, "confidence": 0.87, "reason": "Chunk discusses image segmentation, unrelated to the question"}}
