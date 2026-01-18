@@ -18,3 +18,4 @@ Respond ONLY with a JSON object, no preamble, no markdown. Example:
 or
 {{"relevant": false, "confidence": 0.87, "reason": "Chunk discusses image segmentation, unrelated to the question"}}
 '''
+
