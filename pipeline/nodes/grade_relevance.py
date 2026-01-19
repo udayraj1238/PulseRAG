@@ -21,3 +21,4 @@ or
 
 async def grade_relevance_node(state: RAGState) -> RAGState:
     grades = []
+    for chunk in state["retrieved_chunks"]:
