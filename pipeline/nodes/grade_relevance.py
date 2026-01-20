@@ -25,3 +25,4 @@ async def grade_relevance_node(state: RAGState) -> RAGState:
         prompt = GRADE_PROMPT.format(
             question=state["query"],
             chunk_text=chunk["text"][:800]  # Truncate to save tokens
+        )
