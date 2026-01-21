@@ -27,3 +27,4 @@ async def grade_relevance_node(state: RAGState) -> RAGState:
             chunk_text=chunk["text"][:800]  # Truncate to save tokens
         )
         response = await llm.ainvoke(prompt)
+        try:
