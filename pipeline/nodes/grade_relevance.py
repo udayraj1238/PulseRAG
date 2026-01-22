@@ -28,3 +28,4 @@ async def grade_relevance_node(state: RAGState) -> RAGState:
         )
         response = await llm.ainvoke(prompt)
         try:
+            grade_json = json.loads(response.content.strip())
