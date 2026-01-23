@@ -32,3 +32,4 @@ async def grade_relevance_node(state: RAGState) -> RAGState:
             grade = RelevanceGrade(
                 chunk_id=chunk["chunk_id"],
                 relevant=grade_json["relevant"],
+                confidence=grade_json["confidence"],
