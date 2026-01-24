@@ -35,3 +35,4 @@ async def grade_relevance_node(state: RAGState) -> RAGState:
                 confidence=grade_json["confidence"],
                 reason=grade_json["reason"]
             )
+        except (json.JSONDecodeError, KeyError):
