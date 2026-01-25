@@ -37,3 +37,4 @@ async def grade_relevance_node(state: RAGState) -> RAGState:
             )
         except (json.JSONDecodeError, KeyError):
             # If the LLM fails to produce valid JSON, treat as not relevant
+            grade = RelevanceGrade(
