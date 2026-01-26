@@ -39,3 +39,4 @@ async def grade_relevance_node(state: RAGState) -> RAGState:
             # If the LLM fails to produce valid JSON, treat as not relevant
             grade = RelevanceGrade(
                 chunk_id=chunk["chunk_id"],
+                relevant=False,
