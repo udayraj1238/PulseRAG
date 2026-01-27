@@ -41,3 +41,4 @@ async def grade_relevance_node(state: RAGState) -> RAGState:
                 chunk_id=chunk["chunk_id"],
                 relevant=False,
                 confidence=0.0,
+                reason="Grading failed — parse error"
