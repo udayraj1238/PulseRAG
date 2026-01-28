@@ -43,3 +43,4 @@ async def grade_relevance_node(state: RAGState) -> RAGState:
                 confidence=0.0,
                 reason="Grading failed — parse error"
             )
+        grades.append(grade)
