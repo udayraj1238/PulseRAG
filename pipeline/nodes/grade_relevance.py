@@ -49,3 +49,4 @@ async def grade_relevance_node(state: RAGState) -> RAGState:
     
     return {
         **state,
+        "relevance_grades": grades,
