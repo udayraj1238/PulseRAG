@@ -48,3 +48,4 @@ async def grade_relevance_node(state: RAGState) -> RAGState:
     relevant_count = sum(1 for g in grades if g["relevant"] and g["confidence"] > 0.7)
     
     return {
+        **state,
