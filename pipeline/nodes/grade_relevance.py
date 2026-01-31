@@ -50,3 +50,4 @@ async def grade_relevance_node(state: RAGState) -> RAGState:
     return {
         **state,
         "relevance_grades": grades,
+        "relevant_chunk_count": relevant_count
