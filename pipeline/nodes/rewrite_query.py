@@ -8,3 +8,4 @@ REWRITE_PROMPT = '''You are a query optimizer for a research paper search engine
 
 The following question was searched but produced mostly irrelevant results:
 Original question: {original_query}
+
