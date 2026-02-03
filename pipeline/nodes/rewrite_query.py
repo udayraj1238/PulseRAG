@@ -10,3 +10,4 @@ The following question was searched but produced mostly irrelevant results:
 Original question: {original_query}
 
 Rewrite this question to be more specific and use different terminology that might match academic paper abstracts and introductions better.
+Output ONLY the rewritten question, nothing else.
