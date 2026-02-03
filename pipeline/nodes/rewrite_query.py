@@ -15,3 +15,4 @@ Output ONLY the rewritten question, nothing else.
 
 async def rewrite_query_node(state: RAGState) -> RAGState:
     prompt = REWRITE_PROMPT.format(
+        original_query=state["query"]
