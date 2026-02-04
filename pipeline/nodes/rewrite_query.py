@@ -18,3 +18,4 @@ async def rewrite_query_node(state: RAGState) -> RAGState:
         original_query=state["query"]
     )
     response = await llm.ainvoke(prompt)
+    rewritten = response.content.strip()
