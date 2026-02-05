@@ -23,3 +23,4 @@ async def rewrite_query_node(state: RAGState) -> RAGState:
     return {
         **state,
         "rewritten_query": rewritten
+    }
