@@ -21,3 +21,4 @@ async def rewrite_query_node(state: RAGState) -> RAGState:
     rewritten = response.content.strip()
     
     return {
+        **state,
