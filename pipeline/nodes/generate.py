@@ -6,3 +6,4 @@ llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.1)
 
 GENERATE_PROMPT = '''You are a precise research assistant. Answer the user's question based ONLY on the provided context.
 If the context does not contain enough information to answer, say "Based on the available papers, I cannot find sufficient information to answer this question."
+Do NOT use any knowledge outside the provided context.
