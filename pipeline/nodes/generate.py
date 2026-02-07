@@ -8,3 +8,4 @@ GENERATE_PROMPT = '''You are a precise research assistant. Answer the user's que
 If the context does not contain enough information to answer, say "Based on the available papers, I cannot find sufficient information to answer this question."
 Do NOT use any knowledge outside the provided context.
 
+Context (retrieved from arXiv papers):
