@@ -18,3 +18,4 @@ Provide a clear, factual answer. Cite specific paper titles when making claims.
 
 async def generate_node(state: RAGState) -> RAGState:
     # Only use relevant chunks for generation
+    relevant_chunk_ids = {
