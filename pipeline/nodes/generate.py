@@ -22,3 +22,4 @@ async def generate_node(state: RAGState) -> RAGState:
         g["chunk_id"] for g in state["relevance_grades"]
         if g["relevant"] and g["confidence"] > 0.7
     }
+    
