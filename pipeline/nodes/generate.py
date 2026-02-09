@@ -23,3 +23,4 @@ async def generate_node(state: RAGState) -> RAGState:
         if g["relevant"] and g["confidence"] > 0.7
     }
     
+    # If nothing was relevant, use all chunks (better than nothing)
