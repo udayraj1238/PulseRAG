@@ -27,3 +27,4 @@ async def generate_node(state: RAGState) -> RAGState:
     if not relevant_chunk_ids:
         relevant_chunks = state["retrieved_chunks"]
     else:
+        relevant_chunks = [
