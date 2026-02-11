@@ -32,3 +32,4 @@ async def generate_node(state: RAGState) -> RAGState:
             if c["chunk_id"] in relevant_chunk_ids
         ]
     
+    context = "\n\n---\n\n".join([
