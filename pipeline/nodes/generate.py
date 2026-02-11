@@ -37,3 +37,4 @@ async def generate_node(state: RAGState) -> RAGState:
         for c in relevant_chunks
     ])
     
+    prompt = GENERATE_PROMPT.format(
