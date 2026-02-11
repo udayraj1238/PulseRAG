@@ -33,3 +33,4 @@ async def generate_node(state: RAGState) -> RAGState:
         ]
     
     context = "\n\n---\n\n".join([
+        f"[Source: {c['source']}]\n{c['text']}"
