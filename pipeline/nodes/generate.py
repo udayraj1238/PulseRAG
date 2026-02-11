@@ -29,3 +29,4 @@ async def generate_node(state: RAGState) -> RAGState:
     else:
         relevant_chunks = [
             c for c in state["retrieved_chunks"]
+            if c["chunk_id"] in relevant_chunk_ids
