@@ -36,3 +36,4 @@ async def generate_node(state: RAGState) -> RAGState:
         f"[Source: {c['source']}]\n{c['text']}"
         for c in relevant_chunks
     ])
+    
