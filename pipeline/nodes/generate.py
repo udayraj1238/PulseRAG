@@ -38,3 +38,4 @@ async def generate_node(state: RAGState) -> RAGState:
     ])
     
     prompt = GENERATE_PROMPT.format(
+        context=context,
