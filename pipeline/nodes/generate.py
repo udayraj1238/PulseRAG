@@ -42,3 +42,4 @@ async def generate_node(state: RAGState) -> RAGState:
         question=state["query"]
     )
     
+    response = await llm.ainvoke(prompt)
