@@ -47,3 +47,4 @@ async def generate_node(state: RAGState) -> RAGState:
     return {
         **state,
         "generated_answer": response.content.strip()
+    }
