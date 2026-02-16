@@ -11,3 +11,4 @@ FAITHFULNESS_PROMPT = '''You are a faithfulness auditor. Your job is to check wh
 Source documents (ground truth):
 {sources}
 
+Generated answer sentence to check:
