@@ -17,3 +17,4 @@ Generated answer sentence to check:
 Does the source material directly support this sentence? 
 
 Respond ONLY with JSON, no preamble:
+{{"grounded": true, "confidence": 0.95, "supporting_chunk_ids": ["chunk_abc", "chunk_def"]}}
