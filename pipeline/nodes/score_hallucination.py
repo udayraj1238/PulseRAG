@@ -12,3 +12,4 @@ Source documents (ground truth):
 {sources}
 
 Generated answer sentence to check:
+"{sentence}"
