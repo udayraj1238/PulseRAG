@@ -24,3 +24,4 @@ or
 
 def split_into_sentences(text: str) -> list[str]:
     '''Simple sentence splitter. Good enough for this use case.'''
+    sentences = re.split(r'(?<=[.!?])\s+', text.strip())
