@@ -22,3 +22,4 @@ or
 {{"grounded": false, "confidence": 0.88, "supporting_chunk_ids": []}}
 '''
 
+def split_into_sentences(text: str) -> list[str]:
