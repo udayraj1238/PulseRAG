@@ -21,3 +21,4 @@ Respond ONLY with JSON, no preamble:
 or
 {{"grounded": false, "confidence": 0.88, "supporting_chunk_ids": []}}
 '''
+
