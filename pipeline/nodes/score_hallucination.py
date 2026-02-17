@@ -20,3 +20,4 @@ Respond ONLY with JSON, no preamble:
 {{"grounded": true, "confidence": 0.95, "supporting_chunk_ids": ["chunk_abc", "chunk_def"]}}
 or
 {{"grounded": false, "confidence": 0.88, "supporting_chunk_ids": []}}
+'''
