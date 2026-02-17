@@ -23,3 +23,4 @@ or
 '''
 
 def split_into_sentences(text: str) -> list[str]:
+    '''Simple sentence splitter. Good enough for this use case.'''
