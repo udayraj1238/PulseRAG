@@ -30,3 +30,4 @@ def split_into_sentences(text: str) -> list[str]:
 async def score_hallucination_node(state: RAGState) -> RAGState:
     sentences = split_into_sentences(state["generated_answer"])
     
+    sources_text = "\n\n---\n\n".join([
