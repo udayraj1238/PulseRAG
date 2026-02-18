@@ -27,3 +27,4 @@ def split_into_sentences(text: str) -> list[str]:
     sentences = re.split(r'(?<=[.!?])\s+', text.strip())
     return [s for s in sentences if len(s.strip()) > 10]
 
+async def score_hallucination_node(state: RAGState) -> RAGState:
