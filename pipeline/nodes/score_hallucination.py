@@ -28,3 +28,4 @@ def split_into_sentences(text: str) -> list[str]:
     return [s for s in sentences if len(s.strip()) > 10]
 
 async def score_hallucination_node(state: RAGState) -> RAGState:
+    sentences = split_into_sentences(state["generated_answer"])
