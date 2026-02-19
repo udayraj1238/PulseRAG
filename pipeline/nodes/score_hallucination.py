@@ -38,3 +38,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
     scores: list[HallucinationScore] = []
     
     for sentence in sentences:
+        prompt = FAITHFULNESS_PROMPT.format(
