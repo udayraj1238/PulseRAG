@@ -34,3 +34,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
         f"[{c['chunk_id']}] (Source: {c['source']})\n{c['text']}"
         for c in state["retrieved_chunks"]
     ])
+    
