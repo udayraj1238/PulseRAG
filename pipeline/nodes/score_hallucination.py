@@ -35,3 +35,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
         for c in state["retrieved_chunks"]
     ])
     
+    scores: list[HallucinationScore] = []
