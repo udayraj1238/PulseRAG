@@ -44,3 +44,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
         )
         response = await llm.ainvoke(prompt)
         try:
+            result = json.loads(response.content.strip())
