@@ -43,3 +43,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
             sentence=sentence
         )
         response = await llm.ainvoke(prompt)
+        try:
