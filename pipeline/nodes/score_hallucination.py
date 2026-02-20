@@ -42,3 +42,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
             sources=sources_text[:3000],  # Cap at 3000 chars to manage tokens
             sentence=sentence
         )
+        response = await llm.ainvoke(prompt)
