@@ -46,3 +46,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
         try:
             result = json.loads(response.content.strip())
             score = HallucinationScore(
+                sentence=sentence,
