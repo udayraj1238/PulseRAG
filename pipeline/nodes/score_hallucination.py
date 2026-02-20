@@ -39,3 +39,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
     
     for sentence in sentences:
         prompt = FAITHFULNESS_PROMPT.format(
+            sources=sources_text[:3000],  # Cap at 3000 chars to manage tokens
