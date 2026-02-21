@@ -50,3 +50,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
                 grounded=result["grounded"],
                 confidence=result["confidence"],
                 supporting_chunk_ids=result.get("supporting_chunk_ids", [])
+            )
