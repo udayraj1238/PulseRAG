@@ -51,3 +51,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
                 confidence=result["confidence"],
                 supporting_chunk_ids=result.get("supporting_chunk_ids", [])
             )
+        except (json.JSONDecodeError, KeyError):
