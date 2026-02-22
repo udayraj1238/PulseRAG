@@ -55,3 +55,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
             # If grader fails, conservatively mark as not grounded
             score = HallucinationScore(
                 sentence=sentence,
+                grounded=False,
