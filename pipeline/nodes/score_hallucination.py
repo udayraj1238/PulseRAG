@@ -53,3 +53,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
             )
         except (json.JSONDecodeError, KeyError):
             # If grader fails, conservatively mark as not grounded
+            score = HallucinationScore(
