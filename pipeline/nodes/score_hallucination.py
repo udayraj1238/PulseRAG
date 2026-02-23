@@ -56,3 +56,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
             score = HallucinationScore(
                 sentence=sentence,
                 grounded=False,
+                confidence=0.0,
