@@ -59,3 +59,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
                 confidence=0.0,
                 supporting_chunk_ids=[]
             )
+        scores.append(score)
