@@ -58,3 +58,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
                 grounded=False,
                 confidence=0.0,
                 supporting_chunk_ids=[]
+            )
