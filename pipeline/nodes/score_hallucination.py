@@ -64,3 +64,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
     # Hallucination risk = fraction of sentences that are NOT grounded
     # Weighted by confidence
     if not scores:
+        hallucination_risk = 0.0
