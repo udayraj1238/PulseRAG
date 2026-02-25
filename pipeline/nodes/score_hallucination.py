@@ -66,3 +66,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
     if not scores:
         hallucination_risk = 0.0
     else:
+        ungrounded_weight = sum(
