@@ -70,3 +70,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
             s["confidence"] for s in scores if not s["grounded"]
         )
         total_weight = sum(s["confidence"] for s in scores) or 1.0
+        hallucination_risk = ungrounded_weight / total_weight
