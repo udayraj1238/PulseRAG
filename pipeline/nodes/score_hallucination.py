@@ -76,3 +76,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
     
     return {
         **state,
+        "hallucination_scores": scores,
