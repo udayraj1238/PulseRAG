@@ -74,3 +74,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
     
     flagged = hallucination_risk > 0.4
     
+    return {
