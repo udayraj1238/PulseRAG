@@ -73,3 +73,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
         hallucination_risk = ungrounded_weight / total_weight
     
     flagged = hallucination_risk > 0.4
+    
