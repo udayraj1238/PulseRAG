@@ -78,3 +78,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
         **state,
         "hallucination_scores": scores,
         "hallucination_risk": round(hallucination_risk, 3),
+        "flagged": flagged
