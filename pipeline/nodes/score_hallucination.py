@@ -77,3 +77,4 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
     return {
         **state,
         "hallucination_scores": scores,
+        "hallucination_risk": round(hallucination_risk, 3),
