@@ -10,3 +10,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
     Download and ingest 500 arXiv papers from the cs.AI category.
     This is your one-time setup script.
     '''
+    client = arxiv.Client()
