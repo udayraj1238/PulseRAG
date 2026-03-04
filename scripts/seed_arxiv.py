@@ -11,3 +11,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
     This is your one-time setup script.
     '''
     client = arxiv.Client()
+    search = arxiv.Search(
