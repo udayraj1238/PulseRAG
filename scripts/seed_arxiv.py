@@ -12,3 +12,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
     '''
     client = arxiv.Client()
     search = arxiv.Search(
+        query=f"cat:{category}",
