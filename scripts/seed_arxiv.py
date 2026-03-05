@@ -15,3 +15,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
         query=f"cat:{category}",
         max_results=max_results,
         sort_by=arxiv.SortCriterion.SubmittedDate
+    )
