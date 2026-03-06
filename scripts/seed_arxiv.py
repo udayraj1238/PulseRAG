@@ -18,3 +18,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
     )
     
     writer = QdrantWriter()
+    await writer.ensure_collection_exists()
