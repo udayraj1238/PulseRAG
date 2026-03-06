@@ -17,3 +17,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
         sort_by=arxiv.SortCriterion.SubmittedDate
     )
     
+    writer = QdrantWriter()
