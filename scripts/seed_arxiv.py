@@ -21,3 +21,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
     await writer.ensure_collection_exists()
     
     papers_processed = 0
+    for paper in client.results(search):
