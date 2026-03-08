@@ -24,3 +24,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
     for paper in client.results(search):
         # Combine title + abstract + (truncated) full text if available
         full_text = f"Title: {paper.title}\n\nAbstract: {paper.summary}"
+        
