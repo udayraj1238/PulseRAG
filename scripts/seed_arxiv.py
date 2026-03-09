@@ -26,3 +26,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
         full_text = f"Title: {paper.title}\n\nAbstract: {paper.summary}"
         
         # Chunk the text
+        chunks = chunk_text(
