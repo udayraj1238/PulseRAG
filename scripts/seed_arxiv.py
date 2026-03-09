@@ -25,3 +25,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
         # Combine title + abstract + (truncated) full text if available
         full_text = f"Title: {paper.title}\n\nAbstract: {paper.summary}"
         
+        # Chunk the text
