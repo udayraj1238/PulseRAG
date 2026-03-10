@@ -30,3 +30,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
             text=full_text,
             chunk_size=400,      # ~400 tokens per chunk
             overlap=80           # 80-token overlap between chunks
+        )
