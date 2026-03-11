@@ -34,3 +34,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
         
         # Embed all chunks for this paper
         vectors = embed_batch([c["text"] for c in chunks])
+        
