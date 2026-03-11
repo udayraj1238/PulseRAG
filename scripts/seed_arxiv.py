@@ -32,3 +32,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
             overlap=80           # 80-token overlap between chunks
         )
         
+        # Embed all chunks for this paper
