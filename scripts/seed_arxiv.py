@@ -38,3 +38,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
         # Write to Qdrant
         await writer.upsert_chunks(
             chunks=chunks,
+            vectors=vectors,
