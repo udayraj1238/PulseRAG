@@ -40,3 +40,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
             chunks=chunks,
             vectors=vectors,
             metadata={
+                "paper_title": paper.title,
