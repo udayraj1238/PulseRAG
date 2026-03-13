@@ -39,3 +39,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
         await writer.upsert_chunks(
             chunks=chunks,
             vectors=vectors,
+            metadata={
