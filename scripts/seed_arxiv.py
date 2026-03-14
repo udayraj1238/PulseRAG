@@ -42,3 +42,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
             metadata={
                 "paper_title": paper.title,
                 "arxiv_id": paper.entry_id.split("/")[-1],
+                "authors": [a.name for a in paper.authors],
