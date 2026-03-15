@@ -46,3 +46,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
                 "category": category,
                 "published": paper.published.isoformat()
             }
+        )
