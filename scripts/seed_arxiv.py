@@ -51,3 +51,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
         papers_processed += 1
         if papers_processed % 50 == 0:
             print(f"Processed {papers_processed}/{max_results} papers")
+    
