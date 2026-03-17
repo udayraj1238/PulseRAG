@@ -54,3 +54,4 @@ async def seed_papers(max_results: int = 500, category: str = "cs.AI"):
     
     print(f"Seeding complete. {papers_processed} papers ingested.")
 
+if __name__ == "__main__":
