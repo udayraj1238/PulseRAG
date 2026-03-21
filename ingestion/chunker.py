@@ -10,3 +10,4 @@ def chunk_text(text: str, chunk_size: int = 400, overlap: int = 80) -> List[dict
     is only partially present in each chunk. With overlap, both
     chunks contain the full sentence, improving retrieval quality.
     '''
+    words = text.split()
