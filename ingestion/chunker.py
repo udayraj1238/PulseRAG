@@ -11,3 +11,4 @@ def chunk_text(text: str, chunk_size: int = 400, overlap: int = 80) -> List[dict
     chunks contain the full sentence, improving retrieval quality.
     '''
     words = text.split()
+    chunks = []
