@@ -19,3 +19,4 @@ def chunk_text(text: str, chunk_size: int = 400, overlap: int = 80) -> List[dict
         end = min(start + chunk_size, len(words))
         chunk_words = words[start:end]
         chunk_text_str = " ".join(chunk_words)
+        
