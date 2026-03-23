@@ -17,3 +17,4 @@ def chunk_text(text: str, chunk_size: int = 400, overlap: int = 80) -> List[dict
     
     while start < len(words):
         end = min(start + chunk_size, len(words))
+        chunk_words = words[start:end]
