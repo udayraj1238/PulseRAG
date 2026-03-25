@@ -24,3 +24,4 @@ def chunk_text(text: str, chunk_size: int = 400, overlap: int = 80) -> List[dict
         if len(chunk_words) >= 20:
             chunks.append({
                 "chunk_index": chunk_index,
+                "text": chunk_text_str,
