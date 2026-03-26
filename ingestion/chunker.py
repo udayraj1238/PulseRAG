@@ -28,3 +28,4 @@ def chunk_text(text: str, chunk_size: int = 400, overlap: int = 80) -> List[dict
                 "word_count": len(chunk_words),
                 "start_word": start,
                 "end_word": end
+            })
