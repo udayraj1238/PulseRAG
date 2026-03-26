@@ -31,3 +31,4 @@ def chunk_text(text: str, chunk_size: int = 400, overlap: int = 80) -> List[dict
             })
             chunk_index += 1
         
+        start += (chunk_size - overlap)  # Slide forward by (chunk_size - overlap)
