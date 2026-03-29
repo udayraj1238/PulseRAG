@@ -11,3 +11,4 @@ def embed_text(text: str) -> List[float]:
     vector = MODEL.encode(text, normalize_embeddings=True)
     return vector.tolist()
 
+def embed_batch(texts: List[str], batch_size: int = 64) -> List[List[float]]:
