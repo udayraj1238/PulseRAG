@@ -7,3 +7,4 @@ import numpy as np
 MODEL = SentenceTransformer("all-MiniLM-L6-v2")
 
 def embed_text(text: str) -> List[float]:
+    '''Embed a single string. Returns 384-dim vector.'''
