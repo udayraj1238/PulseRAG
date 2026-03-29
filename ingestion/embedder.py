@@ -10,3 +10,4 @@ def embed_text(text: str) -> List[float]:
     '''Embed a single string. Returns 384-dim vector.'''
     vector = MODEL.encode(text, normalize_embeddings=True)
     return vector.tolist()
+
