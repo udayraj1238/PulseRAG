@@ -15,3 +15,4 @@ def embed_batch(texts: List[str], batch_size: int = 64) -> List[List[float]]:
     '''Embed a list of strings in batches.'''
     all_vectors = []
     for i in range(0, len(texts), batch_size):
+        batch = texts[i:i + batch_size]
