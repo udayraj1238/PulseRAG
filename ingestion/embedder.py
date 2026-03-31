@@ -17,3 +17,4 @@ def embed_batch(texts: List[str], batch_size: int = 64) -> List[List[float]]:
     for i in range(0, len(texts), batch_size):
         batch = texts[i:i + batch_size]
         vectors = MODEL.encode(batch, normalize_embeddings=True, show_progress_bar=False)
+        all_vectors.extend(vectors.tolist())
