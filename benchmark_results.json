@@ -1,0 +1,17 @@
+{
+    "pipeline_a": {
+        "p50_latency_ms": 1.1835098266601562,
+        "p99_latency_ms": 12.637615203857422,
+        "avg_hallucination_risk": 0.45,
+        "avg_retrieval_attempts": 1.0,
+        "cache_hit_rate": 1.0
+    },
+    "pipeline_b": {
+        "p50_latency_ms": 2.8455257415771484,
+        "p99_latency_ms": 5.085229873657227,
+        "avg_hallucination_risk": 0.08,
+        "avg_retrieval_attempts": 1.0,
+        "cache_hit_rate": 1.0
+    },
+    "improvement_percent": 82.22222222222221
+}
