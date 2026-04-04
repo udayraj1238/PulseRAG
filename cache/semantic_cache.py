@@ -8,3 +8,4 @@ import numpy as np
 
 CACHE_TTL_SECONDS = 3600  # 1 hour
 SIMILARITY_THRESHOLD = 0.92  # Queries more similar than this share a cache entry
+
