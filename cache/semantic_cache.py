@@ -15,3 +15,4 @@ class SemanticCache:
 
     async def lookup(self, query: str) -> Optional[dict]:
         '''
+        Check if a semantically similar query has been answered before.
