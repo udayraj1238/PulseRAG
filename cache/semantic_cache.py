@@ -14,3 +14,4 @@ class SemanticCache:
         self.redis = aioredis.from_url(redis_url, decode_responses=True)
 
     async def lookup(self, query: str) -> Optional[dict]:
+        '''
