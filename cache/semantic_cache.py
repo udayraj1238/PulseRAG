@@ -17,3 +17,4 @@ class SemanticCache:
         '''
         Check if a semantically similar query has been answered before.
         
+        Strategy:
