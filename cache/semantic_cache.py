@@ -19,3 +19,5 @@ class SemanticCache:
         
         Strategy:
         1. Embed the new query
+        2. List all cached query keys
+        3. For each, compute cosine similarity
