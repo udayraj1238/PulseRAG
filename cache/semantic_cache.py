@@ -26,3 +26,4 @@ class SemanticCache:
         For large caches, this O(n) scan is expensive. In production,
         you would use Qdrant itself as a cache index. For a portfolio project,
         this is fine up to ~1000 cached entries.
+        '''
