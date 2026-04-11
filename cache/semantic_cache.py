@@ -23,3 +23,4 @@ class SemanticCache:
         3. For each, compute cosine similarity
         4. If similarity > threshold, return the cached result
         
+        For large caches, this O(n) scan is expensive. In production,
