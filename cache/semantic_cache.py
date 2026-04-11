@@ -24,3 +24,4 @@ class SemanticCache:
         4. If similarity > threshold, return the cached result
         
         For large caches, this O(n) scan is expensive. In production,
+        you would use Qdrant itself as a cache index. For a portfolio project,
