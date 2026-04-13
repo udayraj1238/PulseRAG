@@ -30,3 +30,4 @@ class SemanticCache:
         query_vector = np.array(embed_text(query))
         
         # Get all cached keys
+        keys = await self.redis.keys("cache:query:*")
