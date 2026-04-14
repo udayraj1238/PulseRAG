@@ -33,3 +33,4 @@ class SemanticCache:
         keys = await self.redis.keys("cache:query:*")
         
         best_similarity = 0.0
+        best_key = None
