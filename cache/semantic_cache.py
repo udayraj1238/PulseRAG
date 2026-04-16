@@ -34,3 +34,5 @@ class SemanticCache:
         
         best_similarity = 0.0
         best_key = None
+        
+        for key in keys:
