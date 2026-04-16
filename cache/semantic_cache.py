@@ -36,3 +36,4 @@ class SemanticCache:
         best_key = None
         
         for key in keys:
+            cached_data = await self.redis.get(key)
