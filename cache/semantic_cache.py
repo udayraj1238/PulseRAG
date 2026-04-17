@@ -38,3 +38,4 @@ class SemanticCache:
         for key in keys:
             cached_data = await self.redis.get(key)
             if not cached_data:
+                continue
