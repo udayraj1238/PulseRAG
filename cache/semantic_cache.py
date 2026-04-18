@@ -39,3 +39,4 @@ class SemanticCache:
             cached_data = await self.redis.get(key)
             if not cached_data:
                 continue
+            cached = json.loads(cached_data)
