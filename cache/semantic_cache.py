@@ -43,3 +43,4 @@ class SemanticCache:
             cached_vector = np.array(cached["query_vector"])
             
             # Cosine similarity (vectors are already normalized)
+            similarity = float(np.dot(query_vector, cached_vector))
