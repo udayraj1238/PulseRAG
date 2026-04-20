@@ -41,3 +41,5 @@ class SemanticCache:
                 continue
             cached = json.loads(cached_data)
             cached_vector = np.array(cached["query_vector"])
+            
+            # Cosine similarity (vectors are already normalized)
