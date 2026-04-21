@@ -45,3 +45,4 @@ class SemanticCache:
             # Cosine similarity (vectors are already normalized)
             similarity = float(np.dot(query_vector, cached_vector))
             
+            if similarity > best_similarity:
