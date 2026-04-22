@@ -46,3 +46,4 @@ class SemanticCache:
             similarity = float(np.dot(query_vector, cached_vector))
             
             if similarity > best_similarity:
+                best_similarity = similarity
