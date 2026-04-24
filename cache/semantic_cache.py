@@ -51,3 +51,4 @@ class SemanticCache:
         
         if best_similarity >= SIMILARITY_THRESHOLD and best_key:
             cached_data = await self.redis.get(best_key)
+            cached = json.loads(cached_data)
