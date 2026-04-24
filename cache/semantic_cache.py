@@ -50,3 +50,4 @@ class SemanticCache:
                 best_key = key
         
         if best_similarity >= SIMILARITY_THRESHOLD and best_key:
+            cached_data = await self.redis.get(best_key)
