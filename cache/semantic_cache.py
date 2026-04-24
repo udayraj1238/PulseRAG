@@ -48,3 +48,5 @@ class SemanticCache:
             if similarity > best_similarity:
                 best_similarity = similarity
                 best_key = key
+        
+        if best_similarity >= SIMILARITY_THRESHOLD and best_key:
