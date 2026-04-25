@@ -53,3 +53,4 @@ class SemanticCache:
             cached_data = await self.redis.get(best_key)
             cached = json.loads(cached_data)
             return {"chunks": cached["chunks"], "answer": cached["answer"]}
+        
