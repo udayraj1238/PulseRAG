@@ -55,3 +55,4 @@ class SemanticCache:
             return {"chunks": cached["chunks"], "answer": cached["answer"]}
         
         return None
+
