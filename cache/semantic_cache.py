@@ -54,3 +54,4 @@ class SemanticCache:
             cached = json.loads(cached_data)
             return {"chunks": cached["chunks"], "answer": cached["answer"]}
         
+        return None
