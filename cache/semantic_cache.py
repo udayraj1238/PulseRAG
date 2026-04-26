@@ -56,3 +56,4 @@ class SemanticCache:
         
         return None
 
+    async def store(self, query: str, chunks: list, answer: str):
