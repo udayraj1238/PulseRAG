@@ -61,3 +61,4 @@ class SemanticCache:
         key = f"cache:query:{hashlib.md5(query.encode()).hexdigest()}"
         data = {
             "query": query,
+            "query_vector": query_vector,
