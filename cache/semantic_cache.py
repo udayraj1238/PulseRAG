@@ -62,3 +62,4 @@ class SemanticCache:
         data = {
             "query": query,
             "query_vector": query_vector,
+            "chunks": chunks,
