@@ -64,3 +64,4 @@ class SemanticCache:
             "query_vector": query_vector,
             "chunks": chunks,
             "answer": answer
+        }
