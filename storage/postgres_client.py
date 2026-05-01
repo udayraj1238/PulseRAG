@@ -5,3 +5,5 @@ CREATE TABLE IF NOT EXISTS conversations (
     query           TEXT NOT NULL,
     rewritten_query TEXT,
     answer          TEXT NOT NULL,
+    hallucination_risk FLOAT NOT NULL,
+    flagged         BOOLEAN NOT NULL,
