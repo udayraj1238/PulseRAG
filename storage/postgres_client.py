@@ -1,0 +1,3 @@
+
+CREATE_TABLES_SQL = '''
+CREATE TABLE IF NOT EXISTS conversations (

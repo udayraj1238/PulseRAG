@@ -65,3 +65,4 @@ class SemanticCache:
             "chunks": chunks,
             "answer": answer
         }
+        await self.redis.setex(key, CACHE_TTL_SECONDS, json.dumps(data))
