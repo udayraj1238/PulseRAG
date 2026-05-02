@@ -7,3 +7,5 @@ CREATE TABLE IF NOT EXISTS conversations (
     answer          TEXT NOT NULL,
     hallucination_risk FLOAT NOT NULL,
     flagged         BOOLEAN NOT NULL,
+    retrieval_attempts INTEGER NOT NULL,
+    cache_hit       BOOLEAN NOT NULL,
