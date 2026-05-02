@@ -11,3 +11,5 @@ CREATE TABLE IF NOT EXISTS conversations (
     cache_hit       BOOLEAN NOT NULL,
     total_latency_ms FLOAT,
     created_at      TIMESTAMPTZ DEFAULT NOW()
+);
+
