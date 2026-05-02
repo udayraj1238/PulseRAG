@@ -9,3 +9,5 @@ CREATE TABLE IF NOT EXISTS conversations (
     flagged         BOOLEAN NOT NULL,
     retrieval_attempts INTEGER NOT NULL,
     cache_hit       BOOLEAN NOT NULL,
+    total_latency_ms FLOAT,
+    created_at      TIMESTAMPTZ DEFAULT NOW()
