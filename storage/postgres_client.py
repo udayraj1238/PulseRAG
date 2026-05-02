@@ -13,3 +13,5 @@ CREATE TABLE IF NOT EXISTS conversations (
     created_at      TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS feedback (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
