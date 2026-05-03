@@ -19,3 +19,5 @@ CREATE TABLE IF NOT EXISTS feedback (
     rating          SMALLINT CHECK (rating IN (-1, 1)),  -- -1 = thumbs down, 1 = thumbs up
     comment         TEXT,
     created_at      TIMESTAMPTZ DEFAULT NOW()
+);
+
