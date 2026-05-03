@@ -23,3 +23,4 @@ CREATE TABLE IF NOT EXISTS feedback (
 
 CREATE INDEX IF NOT EXISTS idx_conversations_hallucination ON conversations(hallucination_risk);
 CREATE INDEX IF NOT EXISTS idx_conversations_created ON conversations(created_at);
+'''

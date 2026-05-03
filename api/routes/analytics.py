@@ -1,0 +1,2 @@
+
+@router.get("/hallucination-trend")
