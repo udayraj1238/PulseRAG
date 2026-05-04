@@ -6,3 +6,5 @@ async def hallucination_trend(days: int = 7):
     This is what you show in your README as a graph.
     '''
     rows = await db.fetch_all('''
+        SELECT 
+            DATE(created_at) as date,
