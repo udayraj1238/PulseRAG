@@ -8,3 +8,5 @@ async def hallucination_trend(days: int = 7):
     rows = await db.fetch_all('''
         SELECT 
             DATE(created_at) as date,
+            AVG(hallucination_risk) as avg_risk,
+            COUNT(*) as query_count,
