@@ -10,3 +10,5 @@ async def hallucination_trend(days: int = 7):
             DATE(created_at) as date,
             AVG(hallucination_risk) as avg_risk,
             COUNT(*) as query_count,
+            SUM(CASE WHEN flagged THEN 1 ELSE 0 END) as flagged_count
+        FROM conversations
