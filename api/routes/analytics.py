@@ -14,3 +14,5 @@ async def hallucination_trend(days: int = 7):
         FROM conversations
         WHERE created_at >= NOW() - INTERVAL ':days days'
         GROUP BY DATE(created_at)
+        ORDER BY date ASC
+    ''', {"days": days})
