@@ -12,3 +12,5 @@ async def hallucination_trend(days: int = 7):
             COUNT(*) as query_count,
             SUM(CASE WHEN flagged THEN 1 ELSE 0 END) as flagged_count
         FROM conversations
+        WHERE created_at >= NOW() - INTERVAL ':days days'
+        GROUP BY DATE(created_at)
