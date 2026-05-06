@@ -20,3 +20,5 @@ async def hallucination_trend(days: int = 7):
 
 @router.get("/bad-source-chunks")
 async def bad_source_chunks():
+    '''
+    Identify which document chunks are most often retrieved when users give thumbs-down.
