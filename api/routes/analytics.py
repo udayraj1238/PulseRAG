@@ -18,3 +18,5 @@ async def hallucination_trend(days: int = 7):
     ''', {"days": days})
     return {"trend": [dict(r) for r in rows]}
 
+@router.get("/bad-source-chunks")
+async def bad_source_chunks():
