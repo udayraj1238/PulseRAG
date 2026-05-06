@@ -16,3 +16,5 @@ async def hallucination_trend(days: int = 7):
         GROUP BY DATE(created_at)
         ORDER BY date ASC
     ''', {"days": days})
+    return {"trend": [dict(r) for r in rows]}
+
