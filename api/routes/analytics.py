@@ -22,3 +22,5 @@ async def hallucination_trend(days: int = 7):
 async def bad_source_chunks():
     '''
     Identify which document chunks are most often retrieved when users give thumbs-down.
+    These are your 'bad sources' that should be down-ranked or removed.
+    '''
