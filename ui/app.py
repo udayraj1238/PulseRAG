@@ -6,3 +6,5 @@ import asyncio
 st.set_page_config(page_title="PulseRAG", layout="wide")
 st.title("PulseRAG — Self-Correcting Research Assistant")
 st.caption("Powered by arXiv CS/AI papers. Hallucination-scored responses.")
+
+query = st.text_input("Ask a question about AI/ML research:", placeholder="e.g., What is RLHF and how does it work?")
