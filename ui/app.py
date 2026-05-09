@@ -12,3 +12,5 @@ query = st.text_input("Ask a question about AI/ML research:", placeholder="e.g.,
 if st.button("Search") and query:
     with st.spinner("Retrieving, grading, and generating..."):
         response = httpx.post("http://localhost:8000/query", json={"query": query}, timeout=60)
+        result = response.json()
+
