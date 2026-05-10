@@ -18,3 +18,5 @@ if st.button("Search") and query:
 
     with col1:
         if result["flagged"]:
+            st.warning(f"?? High hallucination risk detected ({result['hallucination_risk']:.0%}). Answer may contain unsupported claims.")
+        else:
