@@ -16,3 +16,5 @@ if st.button("Search") and query:
 
     col1, col2 = st.columns([3, 1])
 
+    with col1:
+        if result["flagged"]:
