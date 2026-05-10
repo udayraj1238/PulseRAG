@@ -20,3 +20,5 @@ if st.button("Search") and query:
         if result["flagged"]:
             st.warning(f"?? High hallucination risk detected ({result['hallucination_risk']:.0%}). Answer may contain unsupported claims.")
         else:
+            st.success(f"? Answer grounded ({(1 - result['hallucination_risk']):.0%} confidence)")
+        
