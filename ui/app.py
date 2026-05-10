@@ -14,3 +14,5 @@ if st.button("Search") and query:
         response = httpx.post("http://localhost:8000/query", json={"query": query}, timeout=60)
         result = response.json()
 
+    col1, col2 = st.columns([3, 1])
+
