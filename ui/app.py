@@ -28,3 +28,5 @@ if st.button("Search") and query:
         if result.get("rewritten_query"):
             st.caption(f"Query rewritten to: *{result['rewritten_query']}*")
 
+    with col2:
+        st.metric("Hallucination Risk", f"{result['hallucination_risk']:.0%}")
