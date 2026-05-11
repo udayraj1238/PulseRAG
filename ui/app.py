@@ -26,3 +26,5 @@ if st.button("Search") and query:
         st.write(result["answer"])
         
         if result.get("rewritten_query"):
+            st.caption(f"Query rewritten to: *{result['rewritten_query']}*")
+
