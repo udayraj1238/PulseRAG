@@ -24,3 +24,5 @@ if st.button("Search") and query:
         
         st.markdown("### Answer")
         st.write(result["answer"])
+        
+        if result.get("rewritten_query"):
