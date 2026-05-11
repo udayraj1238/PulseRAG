@@ -22,3 +22,5 @@ if st.button("Search") and query:
         else:
             st.success(f"? Answer grounded ({(1 - result['hallucination_risk']):.0%} confidence)")
         
+        st.markdown("### Answer")
+        st.write(result["answer"])
