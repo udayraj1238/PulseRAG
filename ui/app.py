@@ -30,3 +30,5 @@ if st.button("Search") and query:
 
     with col2:
         st.metric("Hallucination Risk", f"{result['hallucination_risk']:.0%}")
+        st.metric("Retrieval Attempts", result["retrieval_attempts"])
+        st.metric("Latency", f"{result['total_latency_ms']:.0f}ms")
