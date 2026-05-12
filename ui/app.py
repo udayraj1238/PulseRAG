@@ -34,3 +34,5 @@ if st.button("Search") and query:
         st.metric("Latency", f"{result['total_latency_ms']:.0f}ms")
         if result["cache_hit"]:
             st.caption("? Served from cache")
+
+    st.markdown("### Retrieved Sources")
