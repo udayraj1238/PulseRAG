@@ -40,3 +40,5 @@ if st.button("Search") and query:
         with st.expander(f"?? {chunk['source']} (score: {chunk['score']:.3f})"):
             st.write(chunk["text"])
 
+    st.markdown("### Was this answer helpful?")
+    feedback_col1, feedback_col2 = st.columns(2)
