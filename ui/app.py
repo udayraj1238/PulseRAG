@@ -36,3 +36,5 @@ if st.button("Search") and query:
             st.caption("? Served from cache")
 
     st.markdown("### Retrieved Sources")
+    for chunk in result["retrieved_chunks"][:3]:
+        with st.expander(f"?? {chunk['source']} (score: {chunk['score']:.3f})"):
