@@ -46,3 +46,5 @@ if st.button("Search") and query:
         httpx.post(f"http://localhost:8000/feedback/{result['conversation_id']}", json={"rating": 1})
         st.success("Thanks!")
     if feedback_col2.button("?? No"):
+        httpx.post(f"http://localhost:8000/feedback/{result['conversation_id']}", json={"rating": -1})
+        st.info("Thanks — we'll use this to improve.")
