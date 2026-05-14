@@ -44,3 +44,5 @@ if st.button("Search") and query:
     feedback_col1, feedback_col2 = st.columns(2)
     if feedback_col1.button("?? Yes"):
         httpx.post(f"http://localhost:8000/feedback/{result['conversation_id']}", json={"rating": 1})
+        st.success("Thanks!")
+    if feedback_col2.button("?? No"):
