@@ -52,3 +52,5 @@ if st.button("Search") and query:
     # Show sentence-level grounding
     with st.expander("?? Sentence-level hallucination breakdown"):
         for s in result["hallucination_scores"]:
+            color = "green" if s["grounded"] else "red"
+            icon = "?" if s["grounded"] else "?"
