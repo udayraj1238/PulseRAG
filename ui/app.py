@@ -50,3 +50,5 @@ if st.button("Search") and query:
         st.info("Thanks — we'll use this to improve.")
     
     # Show sentence-level grounding
+    with st.expander("?? Sentence-level hallucination breakdown"):
+        for s in result["hallucination_scores"]:
