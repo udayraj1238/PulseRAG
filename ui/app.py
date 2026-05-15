@@ -54,3 +54,4 @@ if st.button("Search") and query:
         for s in result["hallucination_scores"]:
             color = "green" if s["grounded"] else "red"
             icon = "?" if s["grounded"] else "?"
+            st.markdown(f":{color}[{icon}] {s['sentence']} *(confidence: {s['confidence']:.0%})*")
