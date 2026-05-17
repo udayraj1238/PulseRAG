@@ -15,3 +15,5 @@ services:
       POSTGRES_DB: pulserag
       POSTGRES_USER: pulserag
       POSTGRES_PASSWORD: pulserag
+    ports:
+      - "5432:5432"
