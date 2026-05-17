@@ -13,3 +13,5 @@ services:
     image: postgres:16-alpine
     environment:
       POSTGRES_DB: pulserag
+      POSTGRES_USER: pulserag
+      POSTGRES_PASSWORD: pulserag
