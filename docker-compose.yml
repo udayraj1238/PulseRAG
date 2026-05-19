@@ -35,3 +35,5 @@ services:
       - POSTGRES_URL=postgresql+asyncpg://pulserag:pulserag@postgres:5432/pulserag
       - REDIS_URL=redis://redis:6379
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    depends_on:
+      - qdrant
