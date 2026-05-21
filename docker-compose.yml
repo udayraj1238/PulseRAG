@@ -47,3 +47,5 @@ services:
     command: streamlit run ui/app.py --server.port 8501
     ports:
       - "8501:8501"
+    depends_on:
+      - api
