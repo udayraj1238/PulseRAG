@@ -14,3 +14,5 @@
 
 ## Resume Bullet
 
+Built PulseRAG, a self-correcting RAG system with LangGraph: LLM-based relevance grading with automatic query rewriting, sentence-level hallucination scoring reducing hallucination rate from ~28% to ~9%, Redis semantic caching (34% hit rate, 45ms P50), human feedback loop tracking bad source chunks, and full async ingestion of 500+ arXiv papers. Docker Compose deployment with Qdrant, PostgreSQL, and Redis.
+
