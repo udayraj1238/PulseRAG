@@ -10,3 +10,5 @@
 | Cache P50 latency | — | 45ms |
 | Avg retrieval attempts | 1.0 | 1.18 |
 
+*(The latency increase is expected because of additional LLM calls for grading and hallucination scoring per query.)*
+
