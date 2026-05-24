@@ -12,3 +12,5 @@
 
 *(The latency increase is expected because of additional LLM calls for grading and hallucination scoring per query.)*
 
+## Resume Bullet
+
