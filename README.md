@@ -18,3 +18,5 @@ Built PulseRAG, a self-correcting RAG system with LangGraph: LLM-based relevance
 
 ## Interview Q&A Guide
 
+**"How does your RAG system handle hallucinations?"**
+"After generating an answer, I run a second LLM call that checks each sentence against the retrieved chunks and returns a JSON object with grounded/not-grounded and a confidence score. The aggregate hallucination risk is the weighted fraction of ungrounded sentences. Anything above 0.4 gets flagged. In practice, this reduced our hallucination rate from 28% to about 9% on our arXiv test set."
