@@ -22,3 +22,4 @@ Built PulseRAG, a self-correcting RAG system with LangGraph: LLM-based relevance
 "After generating an answer, I run a second LLM call that checks each sentence against the retrieved chunks and returns a JSON object with grounded/not-grounded and a confidence score. The aggregate hallucination risk is the weighted fraction of ungrounded sentences. Anything above 0.4 gets flagged. In practice, this reduced our hallucination rate from 28% to about 9% on our arXiv test set."
 
 **"Why LangGraph and not just a Python function?"**
+"LangGraph gives you explicit state — every node reads and writes to a typed dict, which makes debugging straightforward. And it gives you conditional edges — the 'should I rewrite the query or generate?' decision is a named function in the graph definition, which makes the flow readable. If I'd used a plain Python function, that branching logic would be buried in an if-else chain with no visual structure."
