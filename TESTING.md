@@ -32,3 +32,13 @@ One paper is chunked, embedded, and stored in Qdrant successfully
 - Write ingestion/embedder.py: load all-MiniLM-L6-v2 with SentenceTransformer, implement embed_text() and embed_batch()
 - Install and start Qdrant locally with Docker: docker run -p 6333:6333 qdrant/qdrant
 - Write ingestion/qdrant_writer.py: connect to Qdrant, create collection "arxiv_papers" with vector size 384 and cosine distance
+- Implement upsert_chunks(): takes chunks list + vectors list + metadata dict, does a batch upsert
+- Test with ONE paper: chunk it, embed all chunks, upsert to Qdrant, verify with Qdrant's web UI at localhost:6333/dashboard
+
+### ? If you hit the goal
+- Run the full seed script for all 500 papers — will take 10-20 minutes
+- Add a progress bar using tqdm so you can see ingestion progress
+
+### ? If you didn't
+- Debug the single-paper test first — check that Qdrant is running (curl localhost:6333/healthz) and the collection was created
+- Check embedding shape: embed_text("hello") should return a list of exactly 384 floats
