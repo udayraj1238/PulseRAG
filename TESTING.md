@@ -21,3 +21,14 @@
 - Reduce to 100 papers first — the script pattern is identical, just fewer results
 - If the arxiv library throws errors, add time.sleep(0.5) between requests to avoid rate limiting
 
+
+# Chunker + embedder + Qdrant setup
+
+## Goal
+One paper is chunked, embedded, and stored in Qdrant successfully
+
+### Today's tasks
+- Write ingestion/chunker.py: sliding window chunker with chunk_size=400 words and overlap=80 words. Each chunk is a dict with chunk_index, text, word_count, start_word, end_word
+- Write ingestion/embedder.py: load all-MiniLM-L6-v2 with SentenceTransformer, implement embed_text() and embed_batch()
+- Install and start Qdrant locally with Docker: docker run -p 6333:6333 qdrant/qdrant
+- Write ingestion/qdrant_writer.py: connect to Qdrant, create collection "arxiv_papers" with vector size 384 and cosine distance
