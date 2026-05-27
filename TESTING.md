@@ -42,3 +42,14 @@ One paper is chunked, embedded, and stored in Qdrant successfully
 ### ? If you didn't
 - Debug the single-paper test first — check that Qdrant is running (curl localhost:6333/healthz) and the collection was created
 - Check embedding shape: embed_text("hello") should return a list of exactly 384 floats
+
+# Full ingestion + basic retrieval test
+
+## Goal
+All 500 papers are in Qdrant, retrieval returns relevant chunks
+
+### Today's tasks
+- Run scripts/seed_arxiv.py for all 500 papers (plan for 15-30 minutes of processing time)
+- Write a quick test retrieval script: embed a query like "how does RLHF work", search Qdrant for top 5 chunks, print results
+- Verify the results are topically relevant — you should see chunks from papers about reinforcement learning and human feedback
+- Try 3-4 different queries and evaluate the results subjectively
