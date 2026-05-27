@@ -75,3 +75,13 @@ Graph runs end-to-end with just retrieval (no grading or generation yet)
 - Create pipeline/nodes/retrieve.py: embed the query (or rewritten_query if set), search Qdrant for top 5, return updated state with retrieved_chunks and retrieval_attempts incremented
 - Create pipeline/graph.py: initialize StateGraph(RAGState), add the retrieve node, set it as the entry point and also the end point for now
 - Run the minimal graph: RAG_PIPELINE.invoke({"query": "what is attention mechanism", "retrieval_attempts": 0})
+- Verify: you get back a state dict with 5 retrieved_chunks
+- Add a conversation_id using uuid.uuid4() as default if not provided
+
+### ? If you hit the goal
+- Add the generate node immediately — now you have a basic working RAG without the self-correction layers
+- Start writing the relevance grader node
+
+### ? If you didn't
+- Run a simpler test: just call the retrieve function directly (not through LangGraph) and check the output
+- Check that your Qdrant client is using async mode if your graph is async, or sync mode if sync — mixing causes errors
