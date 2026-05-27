@@ -64,3 +64,14 @@ All 500 papers are in Qdrant, retrieval returns relevant chunks
 - If retrieval results are bad (completely unrelated papers), check that normalize_embeddings=True is set in embed_text()
 - If ingestion is very slow, increase batch_size in embed_batch() from 64 to 128
 
+
+# LangGraph graph skeleton + retrieve node
+
+## Goal
+Graph runs end-to-end with just retrieval (no grading or generation yet)
+
+### Today's tasks
+- Create pipeline/state.py with the RAGState TypedDict: query, conversation_id, retrieved_chunks, relevance_grades, relevant_chunk_count, rewritten_query, retrieval_attempts, generated_answer, hallucination_scores, hallucination_risk, flagged, total_latency_ms, cache_hit
+- Create pipeline/nodes/retrieve.py: embed the query (or rewritten_query if set), search Qdrant for top 5, return updated state with retrieved_chunks and retrieval_attempts incremented
+- Create pipeline/graph.py: initialize StateGraph(RAGState), add the retrieve node, set it as the entry point and also the end point for now
+- Run the minimal graph: RAG_PIPELINE.invoke({"query": "what is attention mechanism", "retrieval_attempts": 0})
