@@ -53,3 +53,14 @@ All 500 papers are in Qdrant, retrieval returns relevant chunks
 - Write a quick test retrieval script: embed a query like "how does RLHF work", search Qdrant for top 5 chunks, print results
 - Verify the results are topically relevant — you should see chunks from papers about reinforcement learning and human feedback
 - Try 3-4 different queries and evaluate the results subjectively
+- Write ingestion/qdrant_writer.py.ensure_collection_exists(): check if collection exists before creating to make re-runs idempotent
+- Add logging to the seed script: how many chunks per paper, total chunks stored, total time taken
+
+### ? If you hit the goal
+- Start building the LangGraph pipeline state and graph skeleton
+- Write the retrieve node — it is simpler than the grading node and works without LLM calls
+
+### ? If you didn't
+- If retrieval results are bad (completely unrelated papers), check that normalize_embeddings=True is set in embed_text()
+- If ingestion is very slow, increase batch_size in embed_batch() from 64 to 128
+
