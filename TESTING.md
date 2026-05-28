@@ -85,3 +85,45 @@ Graph runs end-to-end with just retrieval (no grading or generation yet)
 ### ? If you didn't
 - Run a simpler test: just call the retrieve function directly (not through LangGraph) and check the output
 - Check that your Qdrant client is using async mode if your graph is async, or sync mode if sync — mixing causes errors
+
+# Relevance grader node + query rewriter
+
+## Goal
+Graph grades retrieved chunks and rewrites query when fewer than 2 are relevant
+
+### Today's tasks
+- Create pipeline/prompts.py to centralize all LLM prompts
+- Write the grade relevance prompt: system message explaining the task, user message with question and chunk text, expected JSON output format
+- Create pipeline/nodes/grade_relevance.py: loop over retrieved_chunks, call Gemini Flash for each, parse JSON response, handle parse errors gracefully (default to not relevant)
+- Create pipeline/nodes/rewrite_query.py: call Gemini Flash with the rewrite prompt, return updated state with rewritten_query set
+- Add both nodes to the graph, add conditional edge after grade_relevance: if relevant_chunk_count < 2 AND retrieval_attempts < 2, go to rewrite_query; else go to generate (add a stub generate node for now)
+- Test: ask a very vague question that retrieves irrelevant chunks — trace should show rewrite happening
+
+### ? If you hit the goal
+- Test with 5 different queries and manually inspect the grades to see if the LLM is grading sensibly
+- Add the generate node with a real prompt now
+
+### ? If you didn't
+- If LLM calls fail with API errors, check your .env has the correct GOOGLE_API_KEY and python-dotenv is loading it
+- If JSON parsing fails, print the raw LLM response to see what it's returning — add more explicit instructions to the prompt
+
+# Generate node + full pipeline test
+
+## Goal
+Pipeline returns a coherent answer grounded in retrieved papers
+
+### Today's tasks
+- Create pipeline/nodes/generate.py: filter to only relevant chunks (those that passed grading), format them as context, call Gemini Flash with the generate prompt
+- The generate prompt must explicitly say "answer ONLY from the provided context, do not use outside knowledge"
+- Add generate to the graph with an edge from grade_relevance (when enough relevant chunks) and from rewrite_query's retrieve step
+- Run the complete pipeline (without hallucination scoring yet): invoke with a real question, print the answer
+- Test 5 diverse questions: "what is RLHF?", "how does LoRA fine-tuning work?", "what is FAISS?", "explain contrastive learning", "what are diffusion models?"
+- Evaluate answers subjectively: are they grounded? Do they match what you know?
+
+### ? If you hit the goal
+- Start building the hallucination scorer node immediately — this is the headline feature
+- Also add error handling: if the LLM returns an empty response, return "I cannot find sufficient information in the available papers"
+
+### ? If you didn't
+- Check that context is actually being passed to the generator — print the first 200 chars of the context before the LLM call
+- If the answer ignores the context and just uses general knowledge, make the prompt stronger: "You MUST cite which paper each claim comes from. If a claim is not in the provided papers, do not state it."
