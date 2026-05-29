@@ -127,3 +127,46 @@ Pipeline returns a coherent answer grounded in retrieved papers
 ### ? If you didn't
 - Check that context is actually being passed to the generator — print the first 200 chars of the context before the LLM call
 - If the answer ignores the context and just uses general knowledge, make the prompt stronger: "You MUST cite which paper each claim comes from. If a claim is not in the provided papers, do not state it."
+
+# Hallucination scorer node
+
+## Goal
+Every answer gets a hallucination_risk score from 0.0 to 1.0
+
+### Today's tasks
+- Create pipeline/nodes/score_hallucination.py
+- Write a sentence splitter: split the generated answer on . ! ? boundaries, filter out sentences shorter than 10 words
+- For each sentence, call Gemini Flash with the faithfulness prompt: show all source chunks and the sentence, ask if it is grounded, expect JSON with grounded/confidence/supporting_chunk_ids
+- Compute hallucination_risk: (sum of confidence scores for ungrounded sentences) / (total confidence scores)
+- Set flagged = True if hallucination_risk > 0.4
+- Add the node to the graph: generate -> score_hallucination -> END
+- Test: run 5 queries, print the hallucination_risk for each — they should mostly be low (0.1-0.2) for factual questions
+
+### ? If you hit the goal
+- Start building the PostgreSQL storage layer so you can persist results
+- Also test a question about something NOT in the papers — hallucination risk should be much higher
+
+### ? If you didn't
+- If all scores are 0.0, the grader might be accepting everything — tighten the prompt: add "Be skeptical. Only mark as grounded if you can find the EXACT claim in the sources."
+- If scoring is very slow (5+ seconds), you are making too many LLM calls — limit to the first 5 sentences of the answer for now
+
+# PostgreSQL storage + feedback endpoint
+
+## Goal
+Every query result is saved to Postgres, feedback endpoint works
+
+### Today's tasks
+- Start PostgreSQL with Docker: docker run -e POSTGRES_PASSWORD=pulserag -e POSTGRES_DB=pulserag -p 5432:5432 postgres:16-alpine
+- Create storage/postgres_client.py: async connection using asyncpg, run the CREATE TABLE SQL for conversations and feedback tables
+- After the pipeline runs, save the full state to the conversations table: query, answer, hallucination_risk, flagged, retrieval_attempts, cache_hit, latency
+- Create api/main.py with FastAPI app and POST /query endpoint: takes {"query": "..."}, runs the pipeline, saves to DB, returns the full state
+- Create POST /feedback/{conversation_id} endpoint: takes {"rating": 1} or {"rating": -1}, saves to feedback table
+- Test: curl -X POST localhost:8000/query -d '{"query":"what is attention?"}' — should return answer with hallucination_risk
+
+### ? If you hit the goal
+- Start building the Streamlit UI (ui/app.py)
+- Add GET /analytics/hallucination-trend endpoint that queries average risk per day
+
+### ? If you didn't
+- Use synchronous asyncpg calls wrapped in asyncio.run() if async is causing issues — you can refactor later
+- Start with just saving to conversations table — feedback table can wait until tomorrow
