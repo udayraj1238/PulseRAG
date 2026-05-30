@@ -170,3 +170,48 @@ Every query result is saved to Postgres, feedback endpoint works
 ### ? If you didn't
 - Use synchronous asyncpg calls wrapped in asyncio.run() if async is causing issues — you can refactor later
 - Start with just saving to conversations table — feedback table can wait until tomorrow
+
+# Streamlit UI with hallucination display
+
+## Goal
+Full UI works: ask question, see answer with risk score and sentence breakdown
+
+### Today's tasks
+- Create ui/app.py: title, text input, search button, spinner during processing
+- Show the answer with a conditional warning banner: green success if risk < 0.4, yellow warning if >= 0.4
+- Show metric cards: hallucination risk %, retrieval attempts, latency in ms, cache hit badge
+- Show the retrieved sources as expandable sections below the answer
+- Show the sentence-level grounding breakdown: green checkmark for grounded sentences, red X for ungrounded
+- Add thumbs up / thumbs down buttons that call the /feedback endpoint
+- Run: streamlit run ui/app.py — test it in browser
+
+### ? If you hit the goal
+- Add the query rewrite display: if the query was rewritten, show a small caption "Query was refined to: [rewritten query]"
+- Add a sidebar with recent queries and their hallucination scores
+
+### ? If you didn't
+- Make the UI functional first — styling can be improved later
+- If calling the FastAPI from Streamlit gives CORS errors, add CORSMiddleware to your FastAPI app
+
+# Redis semantic cache
+
+## Goal
+Repeated or similar queries return cached results in under 100ms
+
+### Today's tasks
+- Start Redis with Docker: docker run -p 6379:6379 redis:7-alpine
+- Create cache/semantic_cache.py with SemanticCache class using redis.asyncio
+- Implement lookup(query): embed the query, get all keys with prefix "cache:query:", load each, compute cosine similarity, return cached result if similarity >= 0.92
+- Implement store(query, chunks, answer): embed query, save JSON blob with query_vector + chunks + answer, set 1-hour TTL
+- Integrate into the retrieve node: check cache first, if hit return early with cache_hit=True
+- Also store result in cache after a successful pipeline run
+- Test: ask the same question twice — second time should be near-instant and show "cache hit" in the UI
+
+### ? If you hit the goal
+- Test with paraphrased questions: "what is RLHF?" then "explain reinforcement learning from human feedback" — should be a cache hit
+- Add a /admin/cache/clear endpoint for testing purposes
+
+### ? If you didn't
+- The O(n) scan over all cache keys is fine up to 1000 entries for a portfolio project — don't over-engineer it
+- If Redis connection fails, add REDIS_URL to your .env and make sure python-dotenv is loading it
+
