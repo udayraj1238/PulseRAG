@@ -215,3 +215,47 @@ Repeated or similar queries return cached results in under 100ms
 - The O(n) scan over all cache keys is fine up to 1000 entries for a portfolio project — don't over-engineer it
 - If Redis connection fails, add REDIS_URL to your .env and make sure python-dotenv is loading it
 
+
+# Async document ingestion endpoint
+
+## Goal
+New papers can be ingested while the system is running via API
+
+### Today's tasks
+- Add POST /ingest endpoint to the FastAPI app
+- It accepts {"arxiv_id": "2301.12345"} or {"text": "...", "title": "..."}
+- Run the ingestion (fetch -> chunk -> embed -> upsert) as a FastAPI BackgroundTask so the endpoint returns immediately
+- Track ingestion status: store {arxiv_id, status: "pending/running/done/failed"} in a simple in-memory dict
+- Add GET /ingest/status/{arxiv_id} to check progress
+- Test: curl -X POST localhost:8000/ingest -d '{"arxiv_id":"2310.06825"}' (any real arXiv ID)
+- Verify: after a minute, that paper's content should appear in search results
+
+### ? If you hit the goal
+- Write the Docker Compose file for PulseRAG: api + ui + qdrant + postgres + redis
+- Start writing benchmark tests to measure hallucination rate
+
+### ? If you didn't
+- Use asyncio.create_task() instead of BackgroundTask if BackgroundTask gives lifecycle issues
+- Test the ingestion function directly (not via API) first to make sure it works end-to-end
+
+# Docker Compose + analytics endpoint
+
+## Goal
+docker-compose up starts the full PulseRAG system
+
+### Today's tasks
+- Write docker-compose.yml: qdrant, postgres, redis, api (FastAPI), ui (Streamlit) services
+- Write Dockerfile for the api service
+- Add GET /analytics/hallucination-trend: query Postgres for average hallucination_risk grouped by day
+- Add GET /analytics/bad-sources: query Postgres to find chunk IDs that appear most often in low-rated conversations
+- Test the trend endpoint: run 20 queries, check /analytics/hallucination-trend — should show today's average
+- Run docker-compose up and verify all 5 services start correctly
+- Test the full system via docker-compose (not local dev) — everything should work the same
+
+### ? If you hit the goal
+- Start the baseline RAG benchmark (no self-correction) to get comparison numbers for your README
+- Add a simple analytics chart in the Streamlit sidebar showing hallucination trend over time
+
+### ? If you didn't
+- If Docker networking fails (api can't reach qdrant), make sure service names in docker-compose match the hostnames in your env vars (QDRANT_URL=http://qdrant:6333)
+- Start with just the api + qdrant + postgres services — add redis and ui after those work
