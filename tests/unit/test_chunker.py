@@ -12,3 +12,8 @@ def test_overlap_correct():
     start_of_second = chunks[1]["text"].split()[:80]
     assert end_of_first == start_of_second
 
+def test_short_text_single_chunk():
+    text = " ".join(["word"] * 50)
+    chunks = chunk_text(text, chunk_size=400, overlap=80)
+    assert len(chunks) == 1
+    assert chunks[0]["word_count"] == 50
