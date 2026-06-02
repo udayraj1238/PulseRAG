@@ -17,3 +17,8 @@ def test_short_text_single_chunk():
     chunks = chunk_text(text, chunk_size=400, overlap=80)
     assert len(chunks) == 1
     assert chunks[0]["word_count"] == 50
+
+def test_tiny_trailing_chunk_dropped():
+    text = " ".join(["word"] * 408)  # last chunk would be 8 words
+    chunks = chunk_text(text, chunk_size=400, overlap=80)
+    assert all(c["word_count"] >= 20 for c in chunks)
