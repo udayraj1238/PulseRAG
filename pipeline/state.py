@@ -32,3 +32,17 @@ class RAGState(TypedDict):
     hallucination_scores: List[HallucinationScore]
     hallucination_risk: float
     flagged: bool
+def make_initial_state(query: str, conversation_id: str = "default") -> RAGState:
+    return {
+        "query": query,
+        "conversation_id": conversation_id,
+        "retrieved_chunks": [],
+        "relevance_grades": [],
+        "relevant_chunk_count": 0,
+        "rewritten_query": None,
+        "retrieval_attempts": 0,
+        "generated_answer": "",
+        "hallucination_scores": [],
+        "hallucination_risk": 0.0,
+        "flagged": False
+    }
