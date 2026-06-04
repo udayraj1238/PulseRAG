@@ -27,6 +27,15 @@ def split_into_sentences(text: str) -> list[str]:
     sentences = re.split(r'(?<=[.!?])\s+', text.strip())
     return [s for s in sentences if len(s.strip()) > 10]
 
+def compute_hallucination_risk(scores: list[dict]) -> float:
+    if not scores:
+        return 0.0
+    ungrounded_weight = sum(
+        s.get("confidence", 1.0) for s in scores if not s.get("grounded", False)
+    )
+    total_weight = sum(s.get("confidence", 1.0) for s in scores) or 1.0
+    return ungrounded_weight / total_weight
+
 async def score_hallucination_node(state: RAGState) -> RAGState:
     sentences = split_into_sentences(state["generated_answer"])
     
@@ -61,16 +70,7 @@ async def score_hallucination_node(state: RAGState) -> RAGState:
             )
         scores.append(score)
     
-    # Hallucination risk = fraction of sentences that are NOT grounded
-    # Weighted by confidence
-    if not scores:
-        hallucination_risk = 0.0
-    else:
-        ungrounded_weight = sum(
-            s["confidence"] for s in scores if not s["grounded"]
-        )
-        total_weight = sum(s["confidence"] for s in scores) or 1.0
-        hallucination_risk = ungrounded_weight / total_weight
+    hallucination_risk = compute_hallucination_risk(scores)
     
     flagged = hallucination_risk > 0.4
     
