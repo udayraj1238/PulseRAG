@@ -22,3 +22,9 @@ async def test_grade_parses_valid_json(mock_llm):
     mock_llm.ainvoke.return_value.content = '{"relevant": true, "confidence": 0.91, "reason": "matches"}'
     state = await grade_relevance_node(make_state_with_chunks(1))
     assert state["relevance_grades"][0]["relevant"] is True
+
+@pytest.mark.asyncio
+async def test_grade_handles_malformed_json(mock_llm):
+    mock_llm.ainvoke.return_value.content = "sorry, I cannot help"
+    state = await grade_relevance_node(make_state_with_chunks(1))
+    assert state["relevance_grades"][0]["relevant"] is False
