@@ -23,6 +23,8 @@ async def generate_node(state: RAGState) -> RAGState:
             if g["relevant"] and g["confidence"] > 0.7
         }
         filtered_chunks = [c for c in state.get("retrieved_chunks", []) if c["chunk_id"] in relevant_chunk_ids]
+        if not filtered_chunks:
+            filtered_chunks = state.get("retrieved_chunks", [])
     else:
         filtered_chunks = state.get("retrieved_chunks", [])
         
