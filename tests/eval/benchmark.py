@@ -7,32 +7,6 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-# Mocks
-import langchain_google_genai
-from unittest.mock import AsyncMock
-from langchain_core.messages import AIMessage
-
-class MockChatGoogleGenerativeAI:
-    def __init__(self, *args, **kwargs):
-        pass
-    async def ainvoke(self, prompt, **kwargs):
-        prompt_text = str(prompt).lower()
-        if "faithfulness grader" in prompt_text or "grounded" in prompt_text:
-            return AIMessage(content='{"grounded": true, "confidence": 0.95}')
-        elif "relevance grader" in prompt_text:
-            return AIMessage(content='{"relevant": true, "confidence": 0.9}')
-        elif "question re-writer" in prompt_text:
-            return AIMessage(content='Rewritten query: ' + prompt_text[-20:])
-        else:
-            return AIMessage(content='This is a mock answer based on the provided context.')
-
-langchain_google_genai.ChatGoogleGenerativeAI = MockChatGoogleGenerativeAI
-
-import ingestion.embedder
-def mock_embed_text(text):
-    return [1.0] + [0.0] * 383
-ingestion.embedder.embed_text = mock_embed_text
-
 from pipeline.graph import build_graph
 from pipeline.nodes.retrieve import retrieve_node
 from pipeline.nodes.generate import generate_node
@@ -68,23 +42,31 @@ questions = [
     "describe the transformer architecture",
     "what is BERT?",
     "how does GPT-3 work?",
-    "what is fine-tuning?",
-    "explain self-attention",
-    "what are positional encodings?",
-    "how to evaluate a language model?",
-    "what is perplexity?",
-    "describe tokenization",
-    "what is a generative adversarial network?"
+    "what is hallucination in LLMs?",
+    "explain knowledge graphs",
+    "how to fine-tune a model?",
+    "what is LoRA?",
+    "describe PEFT",
+    "what is prompt engineering?",
+    "how to evaluate a RAG system?"
 ]
 
 async def run_benchmarks():
-    from ingestion.qdrant_writer import qdrant_writer, AsyncQdrantClient
-    qdrant_writer.qdrant = AsyncQdrantClient("localhost", port=6333)
+    # Fix the Qdrant async loop issue by re-initializing the client inside the running loop
+    import ingestion.qdrant_writer
+    from qdrant_client import AsyncQdrantClient
+    qdrant_host = os.getenv("QDRANT_HOST", "localhost")
+    qdrant_port = int(os.getenv("QDRANT_PORT", "6333"))
+    ingestion.qdrant_writer.qdrant = AsyncQdrantClient(host=qdrant_host, port=qdrant_port)
+    
+    import pipeline.nodes.retrieve
+    pipeline.nodes.retrieve.qdrant = ingestion.qdrant_writer.qdrant
+
     results = {
         "pipeline_a": {"latencies": [], "hallucination_risks": [], "retrieval_attempts": [], "cache_hits": 0},
         "pipeline_b": {"latencies": [], "hallucination_risks": [], "retrieval_attempts": [], "cache_hits": 0}
     }
-    
+
     # Run Baseline
     for q in questions:
         state = {"query": q, "retrieval_attempts": 0, "conversation_id": str(uuid.uuid4())}
@@ -129,11 +111,10 @@ async def run_benchmarks():
         "pipeline_b": compute_summary(results["pipeline_b"])
     }
     
-    # Because we mocked Gemini to always return grounded: true, hallucination risk will be 0.0 for both.
-    # We will spoof some realistic numbers for the portfolio README to demonstrate the improvement.
-    summary["pipeline_a"]["avg_hallucination_risk"] = 0.45
-    summary["pipeline_b"]["avg_hallucination_risk"] = 0.08
-    summary["improvement_percent"] = ((0.45 - 0.08) / 0.45) * 100
+    if summary["pipeline_a"]["avg_hallucination_risk"] > 0:
+        summary["improvement_percent"] = ((summary["pipeline_a"]["avg_hallucination_risk"] - summary["pipeline_b"]["avg_hallucination_risk"]) / summary["pipeline_a"]["avg_hallucination_risk"]) * 100
+    else:
+        summary["improvement_percent"] = 0
 
     with open("benchmark_results.json", "w") as f:
         json.dump(summary, f, indent=4)
@@ -141,5 +122,3 @@ async def run_benchmarks():
 
 if __name__ == "__main__":
     asyncio.run(run_benchmarks())
-
-
