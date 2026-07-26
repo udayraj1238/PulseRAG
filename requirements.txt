@@ -15,3 +15,6 @@ aiosqlite
 redis
 requests
 numpy
+
+pytest
+pytest-asyncio

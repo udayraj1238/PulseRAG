@@ -1,3 +1,8 @@
 .env
 .venv/
 __pycache__/
+
+concepts_explained.md.pdf
+local_qdrant/
+semantic_cache.json
+zip_project.py
