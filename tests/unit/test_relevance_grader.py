@@ -1,4 +1,4 @@
-﻿import pytest
+import pytest
 import json
 from pipeline.nodes.grade_relevance import grade_relevance_node
 

@@ -1,4 +1,4 @@
-﻿import pytest
+import pytest
 import os
 from pipeline.nodes.score_hallucination import score_hallucination_node
 

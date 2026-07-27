@@ -1,4 +1,4 @@
-﻿import pytest
+import pytest
 import os
 from cache.semantic_cache import SemanticCache
 

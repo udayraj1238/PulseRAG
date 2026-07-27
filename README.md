@@ -1,4 +1,4 @@
-﻿# PulseRAG: Autonomous Self-Correcting Research Assistant
+# PulseRAG: Autonomous Self-Correcting Research Assistant
 
 PulseRAG is an advanced Retrieval-Augmented Generation (RAG) system engineered to ingest machine learning research papers (arXiv) and synthesize highly accurate, grounded answers to complex queries. 
 

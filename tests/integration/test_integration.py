@@ -1,4 +1,4 @@
-﻿import pytest
+import pytest
 import sys
 from pipeline.graph import build_graph
 
@@ -42,11 +42,11 @@ async def test_full_pipeline(monkeypatch):
     graph = build_graph()
     state = {"query": "integration test query", "retrieval_attempts": 0}
     
-    steps = 0
+    final_state = None
     async for chunk in graph.astream(state):
-        steps += 1
-        print(f"STEP {steps}: {chunk}")
-        if steps > 10:
-            break
-            
-    assert True
+        final_state = chunk
+        
+    assert final_state is not None
+    final_state_data = list(final_state.values())[0]
+    assert "generated_answer" in final_state_data
+    assert final_state_data.get("hallucination_risk", -1.0) >= 0.0

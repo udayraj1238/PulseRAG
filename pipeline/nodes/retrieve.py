@@ -1,4 +1,4 @@
-﻿import time
+import time
 from cache.semantic_cache import SemanticCache
 from ingestion.qdrant_writer import qdrant
 
@@ -6,7 +6,6 @@ cache = SemanticCache()
 
 async def retrieve_node(state: dict) -> dict:
     query = state.get("rewritten_query") or state["query"]
-    print(f"RETRIEVE NODE RECEIVED STATE: {state}")
     
     cached = await cache.lookup(query)
     if cached:
@@ -40,7 +39,6 @@ async def retrieve_node(state: dict) -> dict:
     ]
     
     new_attempts = state.get("retrieval_attempts", 0) + 1
-    print(f"RETRIEVE NODE NEW ATTEMPTS: {new_attempts}")
     
     return {
         **state,

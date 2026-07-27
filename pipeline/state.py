@@ -1,5 +1,4 @@
-
-from typing import TypedDict, Optional, List
+﻿from typing import TypedDict, Optional, List
 class RelevanceGrade(TypedDict):
     chunk_id: str
     relevant: bool
@@ -30,3 +29,6 @@ class RAGState(TypedDict):
     generated_answer: str
     
     # After hallucination scoring
+    hallucination_scores: List[HallucinationScore]
+    hallucination_risk: float
+    flagged: bool
