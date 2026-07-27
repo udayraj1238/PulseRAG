@@ -1,4 +1,4 @@
-from langgraph.graph import StateGraph, END
+﻿from langgraph.graph import StateGraph, END
 from pipeline.state import RAGState
 from pipeline.nodes.retrieve import retrieve_node
 from pipeline.nodes.grade_relevance import grade_relevance_node
@@ -6,13 +6,13 @@ from pipeline.nodes.rewrite_query import rewrite_query_node
 from pipeline.nodes.generate import generate_node
 from pipeline.nodes.score_hallucination import score_hallucination_node
 
-def should_rewrite(state: dict) -> str:
+def should_rewrite(state: RAGState) -> str:
     if state.get("relevant_chunk_count", 0) < 2 and state.get("retrieval_attempts", 0) < 2:
         return "rewrite"
     return "generate"
 
 def build_graph() -> StateGraph:
-    graph = StateGraph(dict)
+    graph = StateGraph(RAGState)
 
     # Add all nodes
     graph.add_node("retrieve", retrieve_node)

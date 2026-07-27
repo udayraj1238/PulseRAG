@@ -5,14 +5,9 @@ from ingestion.qdrant_writer import qdrant
 cache = SemanticCache()
 
 async def retrieve_node(state: dict) -> dict:
-    '''
-    1. Check semantic cache - if a very similar query was answered before, return cached chunks.
-    2. Otherwise, embed the query and run vector search in Qdrant.
-    3. Return top-5 chunks with their scores.
-    '''
     query = state.get("rewritten_query") or state["query"]
+    print(f"RETRIEVE NODE RECEIVED STATE: {state}")
     
-    # Check cache first
     cached = await cache.lookup(query)
     if cached:
         return {
@@ -22,11 +17,9 @@ async def retrieve_node(state: dict) -> dict:
             "retrieval_attempts": state.get("retrieval_attempts", 0) + 1
         }
     
-    # Embed the query
     from ingestion.embedder import embed_text
-    query_vector = embed_text(query)  # Returns a 384-dim float list
+    query_vector = embed_text(query)
     
-    # Search Qdrant
     response = await qdrant.query_points(
         collection_name="arxiv_papers",
         query=query_vector,
@@ -46,9 +39,12 @@ async def retrieve_node(state: dict) -> dict:
         for r in results
     ]
     
+    new_attempts = state.get("retrieval_attempts", 0) + 1
+    print(f"RETRIEVE NODE NEW ATTEMPTS: {new_attempts}")
+    
     return {
         **state,
         "retrieved_chunks": chunks,
         "cache_hit": False,
-        "retrieval_attempts": state.get("retrieval_attempts", 0) + 1
+        "retrieval_attempts": new_attempts
     }

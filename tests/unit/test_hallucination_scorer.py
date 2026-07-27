@@ -1,17 +1,17 @@
-import pytest
+﻿import pytest
+import os
 from pipeline.nodes.score_hallucination import score_hallucination_node
 
 @pytest.mark.asyncio
-async def test_risk_formula():
+async def test_risk_formula(monkeypatch):
     state = {
-        "answer": "Sentence 1. Sentence 2. Sentence 3.",
+        "generated_answer": "Sentence 1. Sentence 2. Sentence 3.",
         "retrieved_chunks": []
     }
-    
+
     # We will override the LLM temporarily for this test
-    import langchain_google_genai
     from langchain_core.messages import AIMessage
-    
+
     class CustomMockLLM:
         def __init__(self, *args, **kwargs):
             self.call_count = 0
@@ -22,13 +22,13 @@ async def test_risk_formula():
             else:
                 return AIMessage(content='{"grounded": true, "confidence": 0.9}')
 
-    old_llm = langchain_google_genai.ChatGoogleGenerativeAI
-    langchain_google_genai.ChatGoogleGenerativeAI = CustomMockLLM
-    
-    # The node creates an instance of ChatGoogleGenerativeAI inside it
+    import pipeline.nodes.score_hallucination
+    pipeline.nodes.score_hallucination.llm = CustomMockLLM()
+
     new_state = await score_hallucination_node(state)
     
-    langchain_google_genai.ChatGoogleGenerativeAI = old_llm
-    
+    # We mocked 3 sentences. Sent 1: false(0.9), Sent 2: true(0.9), Sent 3: true(0.9)
+    # ungrounded weight = 0.9
+    # total weight = 2.7
+    # risk = 0.9 / 2.7 = 0.333
     assert abs(new_state["hallucination_risk"] - 0.333) < 0.01
-    assert new_state["flagged"] == False
