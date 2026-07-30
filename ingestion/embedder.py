@@ -2,8 +2,11 @@
 from sentence_transformers import SentenceTransformer
 from typing import List
 import numpy as np
+import os
+os.environ['HF_HUB_DISABLE_PROGRESS_BARS'] = '1'
 
-# Load once at module level — expensive to reload
+
+# Load once at module level - expensive to reload
 MODEL = SentenceTransformer("all-MiniLM-L6-v2")
 
 def embed_text(text: str) -> List[float]:
