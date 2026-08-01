@@ -1,4 +1,4 @@
-﻿import pytest
+import pytest
 from unittest.mock import AsyncMock
 
 class DummyPoint:
@@ -19,5 +19,5 @@ class DummyQdrant:
 
 @pytest.fixture(autouse=True)
 def mock_qdrant_for_e2e(monkeypatch):
-    import ingestion.qdrant_writer
-    monkeypatch.setattr(ingestion.qdrant_writer, "qdrant", DummyQdrant())
+    import pipeline.nodes.retrieve
+    monkeypatch.setattr(pipeline.nodes.retrieve, "qdrant", DummyQdrant())
