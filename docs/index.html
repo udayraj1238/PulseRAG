@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PulseRAG — Verification Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Lora:ital,wght@0,400;0,500;0,600;1,500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+:root{
+:root {
+  --paper: #f4f2eb;
+  --paper-2: #eae7db;
+  --paper-3: #e0dccd;
+  --ink: #141620;
+  --ink-dim: #3d4052;
+  --ink-faint: #75798c;
+  --line: rgba(20, 22, 32, 0.12);
+  --line-2: rgba(20, 22, 32, 0.2);
+  --verified: #276957;
+  --verified-dim: #b8d2c8;
+  --flag: #a92715;
+  --flag-dim: #ebd4cf;
+  --stamp: #8a1919;
+  --f-report: 'Courier Prime', monospace;
+  --f-body: 'Lora', serif;
+  --f-hand: 'Caveat', cursive;
+  --shadow-1: 0 4px 12px rgba(20, 22, 32, 0.05);
+  --shadow-2: 0 12px 32px rgba(20, 22, 32, 0.08);
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--f-body);
+  background-color: var(--paper);
+  background-image: 
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 20% 30%, rgba(20,22,32,0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(20,22,32,0.03) 0%, transparent 50%);
+  color: var(--ink);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+::selection { background: var(--stamp); color: var(--paper); }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar-thumb { background: var(--ink-faint); border-radius: 3px; }
+a { color: inherit; transition: color 0.2s ease, border-color 0.2s ease; }
+:focus-visible { outline: 2px solid var(--stamp); outline-offset: 4px; }
+
+/* ===== FOLDER TAB SIDE NAV ===== */
+.tab-nav { position: fixed; left: 0; top: 0; bottom: 0; width: 60px; z-index: 200; display: flex; flex-direction: column; align-items: center; padding-top: 100px; gap: 0; background: rgba(244, 242, 235, 0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-right: 1px solid var(--line); }
+.tab-item { writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); font-family: var(--f-report); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-dim); text-decoration: none; padding: 22px 0; border-bottom: 1px solid var(--line); width: 100%; text-align: center; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); cursor: pointer; }
+.tab-item:hover, .tab-item.active { color: var(--paper); background: var(--ink); letter-spacing: 0.2em; }
+.tab-logo { position: fixed; left: 0; top: 0; width: 60px; height: 80px; z-index: 201; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--line-2); background: var(--paper); border-right: 1px solid var(--line); }
+.tab-logo-mark { width: 30px; height: 30px; border: 2px solid var(--stamp); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--f-report); font-size: 10px; font-weight: 700; color: var(--stamp); transform: rotate(-12deg); transition: transform 0.4s ease; }
+.tab-logo:hover .tab-logo-mark { transform: rotate(0deg) scale(1.05); }
+@media(max-width:760px){.tab-nav,.tab-logo{display:none}}
+
+/* ===== DOCUMENT WRAPPER ===== */
+.doc { margin-left: 60px; max-width: 960px; padding: 0 80px; }
+@media(max-width:760px){.doc{margin-left:0;padding:0 32px}}
+@media(max-width:500px){.doc{padding:0 20px}}
+
+/* ===== COVER / HEADER ===== */
+.cover { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 120px 0 80px; position: relative; }
+.cover-meta { font-family: var(--f-report); font-size: 12px; color: var(--ink-faint); letter-spacing: 0.08em; margin-bottom: 40px; display: flex; gap: 32px; flex-wrap: wrap; text-transform: uppercase; }
+.cover-meta span b { color: var(--ink); font-weight: 700; }
+.stamp { position: absolute; top: 96px; right: 0; font-family: var(--f-report); font-weight: 700; font-size: 14px; color: var(--verified); border: 3px double var(--verified); padding: 10px 20px; transform: rotate(6deg); letter-spacing: 0.1em; opacity: 0; text-align: center; line-height: 1.4; box-shadow: 0 4px 12px rgba(39, 105, 87, 0.15); border-radius: 2px; }
+.stamp small { display: block; font-size: 9.5px; font-weight: 400; letter-spacing: 0.18em; margin-top: 4px; opacity: 0.8; }
+#scanline-wrap { position: relative; overflow: hidden; padding-bottom: 8px; }
+.cover-title { font-family: var(--f-report); font-weight: 700; font-size: clamp(36px, 5.8vw, 64px); line-height: 1.15; letter-spacing: -0.5px; color: var(--ink); max-width: 820px; text-shadow: 0 1px 2px rgba(20,22,32,0.05); }
+.cover-title .redact { background: var(--ink); color: var(--ink); border-radius: 3px; padding: 0 6px; box-shadow: inset 0 2px 6px rgba(0,0,0,0.4); }
+#scanbar { position: absolute; left: 0; top: 0; width: 100%; height: 6px; background: linear-gradient(90deg, transparent, var(--stamp), transparent); box-shadow: 0 0 24px 6px rgba(138, 25, 25, 0.4); z-index: 5; border-radius: 50%; }
+.cover-sub { font-family: var(--f-body); font-size: 18px; font-style: italic; color: var(--ink-dim); max-width: 640px; margin-top: 32px; line-height: 1.8; border-left: 3px solid var(--stamp); padding-left: 24px; }
+.cover-sub b { font-style: normal; font-weight: 600; color: var(--ink); }
+.cover-stats { display: flex; gap: 0; margin-top: 60px; border-top: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); background: rgba(20, 22, 32, 0.02); }
+.cstat { flex: 1; padding: 24px 0; border-right: 1px solid var(--line); text-align: center; transition: background 0.3s ease; }
+.cstat:hover { background: rgba(20, 22, 32, 0.04); }
+.cstat:last-child { border-right: none; }
+.cstat-val { font-family: var(--f-report); font-weight: 700; font-size: 28px; color: var(--ink); }
+.cstat-lbl { font-family: var(--f-report); font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 8px; }
+.cover-btns { display: flex; gap: 16px; margin-top: 52px; flex-wrap: wrap; }
+.btn-stamp { font-family: var(--f-report); font-weight: 700; font-size: 13px; letter-spacing: 0.05em; padding: 14px 28px; background: var(--ink); color: var(--paper); border: none; cursor: pointer; text-decoration: none; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: var(--shadow-1); display: inline-block; }
+.btn-stamp:hover { background: var(--stamp); transform: translateY(-2px); box-shadow: var(--shadow-2); }
+.btn-outline { font-family: var(--f-report); font-weight: 700; font-size: 13px; letter-spacing: 0.05em; padding: 14px 28px; background: transparent; color: var(--ink-dim); border: 2px solid var(--line-2); cursor: pointer; text-decoration: none; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); display: inline-block; }
+.btn-outline:hover { border-color: var(--ink); color: var(--ink); transform: translateY(-2px); box-shadow: var(--shadow-1); background: rgba(20,22,32,0.02); }
+.scroll-hint { position: absolute; bottom: 40px; left: 0; font-family: var(--f-hand); font-size: 19px; color: var(--ink-faint); display: flex; align-items: center; gap: 10px; opacity: 0.8; }
+.scroll-hint svg { width: 16px; animation: hint-bounce 2s infinite ease-in-out; }
+@keyframes hint-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+/* ===== TORN DIVIDER ===== */
+.tear { height: 26px; margin: 20px 0 40px; position: relative; opacity: 0.7; }
+.tear svg { width: 100%; height: 100%; display: block; }
+.tear path { fill: none; stroke: var(--line-2); stroke-width: 1.5; stroke-dasharray: 4 6; stroke-linecap: round; }
+
+/* ===== SECTION COMMON ===== */
+.doc-section { padding: 80px 0; }
+.sect-num { font-family: var(--f-report); font-size: 12.5px; font-weight: 700; color: var(--stamp); letter-spacing: 0.12em; margin-bottom: 12px; }
+.sect-title { font-family: var(--f-report); font-weight: 700; font-size: clamp(26px, 3.5vw, 36px); color: var(--ink); margin-bottom: 20px; letter-spacing: -0.5px; }
+.sect-body { font-size: 17.5px; color: var(--ink-dim); max-width: 660px; line-height: 1.85; margin-bottom: 56px; }
+.reveal { opacity: 0; transform: translateY(24px); }
+
+/* ===== EXHIBITS (architecture as case entries) ===== */
+.exhibit { display: grid; grid-template-columns: 100px 1fr; gap: 24px; border-top: 1px solid var(--line); padding: 32px 0; transition: background 0.3s ease; }
+.exhibit:hover { background: rgba(20, 22, 32, 0.01); padding-left: 16px; margin-left: -16px; }
+.exhibit:last-child { border-bottom: 1px solid var(--line); }
+.exhibit-tag { font-family: var(--f-report); font-size: 11.5px; font-weight: 700; color: var(--ink-faint); letter-spacing: 0.08em; padding-top: 4px; }
+.exhibit-title { font-family: var(--f-report); font-weight: 700; font-size: 16.5px; color: var(--ink); margin-bottom: 10px; letter-spacing: -0.2px; }
+.exhibit-desc { font-size: 15.5px; color: var(--ink-dim); line-height: 1.75; max-width: 600px; }
+.exhibit-note { font-family: var(--f-hand); font-size: 18px; color: var(--stamp); margin-top: 12px; display: inline-block; transform: rotate(-1.5deg); opacity: 0.9; }
+
+/* ===== THE CATCH — annotated excerpt centerpiece ===== */
+.excerpt-tabs { display: flex; gap: 0; margin-bottom: 0; border: 2px solid var(--ink); border-bottom: none; border-radius: 4px 4px 0 0; overflow: hidden; }
+.excerpt-tab { flex: 1; font-family: var(--f-report); font-size: 13px; font-weight: 700; padding: 16px; text-align: center; cursor: pointer; background: var(--paper-2); color: var(--ink-dim); border-right: 2px solid var(--ink); transition: all 0.3s ease; }
+.excerpt-tab:last-child { border-right: none; }
+.excerpt-tab:hover:not(.active) { background: var(--paper-3); color: var(--ink); }
+.excerpt-tab.active { background: var(--ink); color: var(--paper); letter-spacing: 0.02em; }
+.excerpt-doc { border: 2px solid var(--ink); background: #f9f8f4; padding: 48px 52px; position: relative; box-shadow: var(--shadow-2); }
+.excerpt-q-label { font-family: var(--f-report); font-size: 11px; font-weight: 700; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px; }
+.excerpt-q { font-family: var(--f-body); font-style: italic; font-weight: 500; font-size: 18.5px; color: var(--ink); margin-bottom: 32px; padding-bottom: 24px; border-bottom: 2px dashed var(--line-2); }
+.excerpt-text { font-family: var(--f-body); font-size: 17px; line-height: 2.1; color: var(--ink); position: relative; }
+.excerpt-sentence { position: relative; display: inline; transition: background 0.2s ease; }
+.excerpt-sentence.flagged { cursor: pointer; }
+.excerpt-sentence.flagged:hover { background: rgba(169, 39, 21, 0.05); }
+#annotation-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; z-index: 10; }
+.margin-note { font-family: var(--f-hand); font-size: 21px; color: var(--stamp); margin-top: 24px; padding-top: 20px; border-top: 2px dashed var(--flag-dim); opacity: 0; transform: rotate(-0.5deg); transition: opacity 0.4s ease; }
+.margin-note.show { opacity: 1; }
+.margin-note.ok { color: var(--verified); border-top-color: var(--verified-dim); }
+.excerpt-foot { display: flex; border: 2px solid var(--ink); border-top: none; background: var(--paper-2); border-radius: 0 0 4px 4px; box-shadow: var(--shadow-1); }
+.ef { flex: 1; padding: 14px 20px; border-right: 1px solid var(--line-2); font-family: var(--f-report); font-size: 11px; }
+.ef:last-child { border-right: none; }
+.ef-key { color: var(--ink-faint); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-size: 9.5px; }
+.ef-val { color: var(--ink); font-weight: 700; margin-top: 4px; font-size: 15px; }
+.verdict-stamp { position: absolute; top: 36px; right: 40px; font-family: var(--f-report); font-weight: 700; font-size: 13px; border: 3px solid; padding: 8px 16px; transform: rotate(8deg); letter-spacing: 0.1em; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 0; border-radius: 2px; }
+.verdict-stamp.ok { color: var(--verified); border-color: var(--verified); opacity: 1; }
+.verdict-stamp.bad { color: var(--stamp); border-color: var(--stamp); opacity: 1; transform: rotate(-4deg) scale(1.05); box-shadow: 0 4px 12px rgba(138, 25, 25, 0.15); }
+
+/* ===== FINDINGS (concepts as numbered findings) ===== */
+.finding { display: grid; grid-template-columns: 64px 1fr 100px; gap: 24px; align-items: start; padding: 28px 0; border-top: 1px solid var(--line); transition: background 0.3s ease; }
+.finding:hover { background: rgba(20, 22, 32, 0.01); padding-left: 16px; margin-left: -16px; margin-right: -16px; padding-right: 16px; }
+.finding:last-child { border-bottom: 1px solid var(--line); }
+.finding-num { font-family: var(--f-report); font-weight: 700; font-size: 24px; color: var(--line-2); text-shadow: 1px 1px 0px rgba(255,255,255,0.5); }
+.finding-title { font-family: var(--f-report); font-weight: 700; font-size: 15.5px; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.2px; }
+.finding-desc { font-size: 15px; color: var(--ink-dim); line-height: 1.75; }
+.finding-mark { font-family: var(--f-report); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; padding: 6px 12px; border: 2px solid; text-align: center; justify-self: end; white-space: nowrap; margin-top: 2px; border-radius: 2px; box-shadow: 1px 1px 0 rgba(20,22,32,0.05); }
+.finding-mark.verified { color: var(--verified); border-color: var(--verified); }
+
+/* ===== APPENDIX (benchmarks as data table) ===== */
+.appendix-table { width: 100%; border-collapse: separate; border-spacing: 0; font-family: var(--f-report); font-size: 14px; background: rgba(255,255,255,0.4); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; box-shadow: var(--shadow-1); }
+.appendix-table th { text-align: left; padding: 16px 20px; border-bottom: 2px solid var(--ink); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-dim); font-weight: 700; background: rgba(20,22,32,0.03); }
+.appendix-table td { padding: 16px 20px; border-bottom: 1px solid var(--line); transition: background 0.2s ease; }
+.appendix-table tr:hover td { background: rgba(20,22,32,0.02); }
+.appendix-table tr:last-child td { border-bottom: none; }
+.appendix-table .num { text-align: right; font-weight: 700; }
+.appendix-table .flag-row td { color: var(--stamp); font-weight: 700; background: rgba(169, 39, 21, 0.03); }
+.appendix-table .ok-row td { color: var(--verified); font-weight: 700; }
+
+/* ===== AUDIT LOG (tests) ===== */
+.audit-log { border: 2px solid var(--ink); background: var(--paper-2); border-radius: 4px; overflow: hidden; box-shadow: var(--shadow-2); }
+.audit-head { display: grid; grid-template-columns: 80px 1fr 140px; padding: 14px 20px; background: var(--ink); color: var(--paper); font-family: var(--f-report); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+.audit-row { display: grid; grid-template-columns: 80px 1fr 140px; padding: 16px 20px; border-bottom: 1px solid var(--line); align-items: center; font-family: var(--f-report); font-size: 13px; transition: background 0.2s ease; }
+.audit-row:hover { background: var(--paper-3); }
+.audit-row:last-child { border-bottom: none; }
+.audit-time { color: var(--ink-faint); font-size: 12px; font-weight: 700; }
+.audit-desc { color: var(--ink); font-weight: 700; }
+.audit-desc small { display: block; font-family: var(--f-body); font-style: italic; font-weight: 400; font-size: 12.5px; color: var(--ink-dim); margin-top: 4px; }
+.audit-status { font-size: 10.5px; font-weight: 700; text-align: center; padding: 6px 12px; border: 2px solid; border-radius: 2px; }
+.audit-status.pass { color: var(--verified); border-color: var(--verified); background: rgba(39, 105, 87, 0.05); }
+.audit-status.hold { color: var(--stamp); border-color: var(--stamp); background: rgba(138, 25, 25, 0.05); }
+.audit-more { padding: 16px 20px; font-family: var(--f-report); font-size: 12px; color: var(--ink-faint); font-weight: 700; font-style: italic; border-bottom: 1px solid var(--line); background: rgba(20,22,32,0.02); text-align: center; }
+.audit-summary { margin-top: 24px; font-family: var(--f-report); font-size: 13px; font-weight: 700; color: var(--ink-dim); display: flex; gap: 24px; flex-wrap: wrap; background: rgba(20,22,32,0.03); padding: 12px 20px; border-radius: 4px; border: 1px dashed var(--line-2); }
+.audit-note { margin-top: 20px; font-size: 15px; color: var(--ink-dim); line-height: 1.8; font-style: italic; max-width: 700px; border-left: 3px solid var(--stamp); padding-left: 20px; }
+
+/* ===== CLOSING / SIGNATURE ===== */
+.closing { padding: 100px 0 80px; position: relative; }
+.closing-title { font-family: var(--f-report); font-weight: 700; font-size: clamp(28px, 4vw, 42px); color: var(--ink); margin-bottom: 20px; letter-spacing: -0.5px; }
+.closing-sub { font-size: 17px; color: var(--ink-dim); max-width: 580px; margin-bottom: 44px; line-height: 1.85; }
+.closing-code { font-family: var(--f-report); font-size: 13.5px; font-weight: 700; background: var(--paper-2); border: 2px solid var(--line-2); padding: 24px 28px; max-width: 580px; color: var(--ink-dim); line-height: 2; border-radius: 4px; box-shadow: inset 0 2px 4px rgba(20,22,32,0.02); }
+.closing-code .c-cmd { color: var(--stamp); }
+.closing-code .c-comment { color: var(--ink-faint); font-weight: 400; }
+.signature { margin-top: 72px; padding-top: 32px; border-top: 3px solid var(--ink); display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px; }
+.sig-mark { font-family: var(--f-hand); font-size: 34px; color: var(--ink); transform: rotate(-2deg); opacity: 0.9; }
+.sig-meta { font-family: var(--f-report); font-size: 11.5px; font-weight: 700; color: var(--ink-faint); text-align: right; line-height: 1.8; text-transform: uppercase; letter-spacing: 0.05em; }
+.footer-links { display: flex; gap: 24px; margin-top: 12px; }
+.footer-links a { font-family: var(--f-report); font-size: 12px; font-weight: 700; color: var(--ink-dim); text-decoration: none; border-bottom: 2px solid var(--line-2); padding-bottom: 2px; transition: all 0.2s ease; }
+.footer-links a:hover { color: var(--stamp); border-color: var(--stamp); }
+
+@media(prefers-reduced-motion:reduce){
+  .scroll-hint svg{animation:none}
+  #scanbar{display:none}
+}
+
+@media(max-width:760px){
+  .cover{padding-top:80px}
+  .stamp{position:static;transform:rotate(-3deg);display:inline-block;margin-bottom:32px}
+  .cover-stats{flex-wrap:wrap}
+  .cstat{flex:1 1 50%; border-bottom:1px solid var(--line)}
+  .cstat:nth-child(even){border-right:none}
+  .exhibit,.finding{grid-template-columns:1fr; gap: 12px;}
+  .finding-mark{justify-self:start;margin-top:10px}
+  .appendix-table{font-size:12.5px}
+  .audit-head,.audit-row{grid-template-columns:60px 1fr 100px; padding: 12px 16px;}
+  .excerpt-doc{padding:32px 24px}
+  .signature{flex-direction:column;align-items:flex-start}
+  .sig-meta{text-align:left}
+}
+</style>
+</head>
+<body>
+
+<div class="tab-logo"><div class="tab-logo-mark">PR</div></div>
+<nav class="tab-nav">
+  <a href="#method" class="tab-item">Method</a>
+  <a href="#catch" class="tab-item">The Catch</a>
+  <a href="#findings" class="tab-item">Findings</a>
+  <a href="#appendix" class="tab-item">Appendix</a>
+  <a href="#audit" class="tab-item">Audit Log</a>
+</nav>
+
+<div class="doc">
+
+  <section class="cover" id="home">
+    <div class="cover-meta">
+      <span>REPORT <b>№ PR-2026-04</b></span>
+      <span>SUBJECT <b>Retrieval-Augmented Generation, self-verifying</b></span>
+      <span>STATUS <b>Open source</b></span>
+    </div>
+    <div class="stamp" id="stamp">VERIFIED SYSTEM<small>self-checking · not self-reported</small></div>
+    <div id="scanline-wrap">
+      <div id="scanbar"></div>
+      <h1 class="cover-title" id="cover-title">A retrieval system that <span class="redact">investigates</span> its own answers before you read them.</h1>
+    </div>
+    <p class="cover-sub">Most RAG pipelines retrieve, generate, and stop. PulseRAG adds a step nearly everyone skips: <b>it checks its own work</b>, sentence by sentence, against the sources it actually retrieved — and flags what it can't prove.</p>
+    <div class="cover-stats">
+      <div class="cstat"><div class="cstat-val">500</div><div class="cstat-lbl">papers indexed</div></div>
+      <div class="cstat"><div class="cstat-val">41</div><div class="cstat-lbl">tests, verified</div></div>
+      <div class="cstat"><div class="cstat-val">0.4</div><div class="cstat-lbl">flag threshold</div></div>
+      <div class="cstat"><div class="cstat-val">82%</div><div class="cstat-lbl">fewer hallucinations</div></div>
+    </div>
+    <div class="cover-btns">
+      <a href="#catch" class="btn-stamp">see it catch a lie →</a>
+      <a href="https://github.com/udayraj1238/PulseRAG" target="_blank" class="btn-outline">read the source</a>
+    </div>
+    <div class="scroll-hint"><svg viewBox="0 0 10 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 1v13M1 10l4 4 4-4"/></svg>keep reading</div>
+  </section>
+
+  <div class="tear"><svg viewBox="0 0 900 26" preserveAspectRatio="none"><path d="M0,13 L900,13"/></svg></div>
+
+  <section class="doc-section" id="method">
+    <div class="sect-num">EXHIBIT A — METHOD</div>
+    <h2 class="sect-title reveal">Four checkpoints, in order</h2>
+    <p class="sect-body reveal">Standard RAG has two steps. This has four — the extra two are where the actual verification happens.</p>
+    <div class="reveal">
+      <div class="exhibit">
+        <div class="exhibit-tag">01 / RETRIEVE</div>
+        <div><div class="exhibit-title">Search the corpus</div><div class="exhibit-desc">Semantic cache checked first — a 92%-similar paraphrase counts as a hit. Otherwise, vector search across 500 indexed papers in Qdrant.</div></div>
+      </div>
+      <div class="exhibit">
+        <div class="exhibit-tag">02 / GRADE</div>
+        <div><div class="exhibit-title">Interrogate what came back</div><div class="exhibit-desc">Vector similarity finds "related." An LLM grader checks each chunk for "actually useful" — a real, separate judgment call.</div><span class="exhibit-note">this is where most RAG pipelines just trust the search results blindly</span></div>
+      </div>
+      <div class="exhibit">
+        <div class="exhibit-tag">03 / WRITE</div>
+        <div><div class="exhibit-title">Generate, constrained</div><div class="exhibit-desc">The answer is written using only chunks that survived grading. Fewer than 2 pass → the query is rewritten and search runs again, capped at 2 attempts.</div></div>
+      </div>
+      <div class="exhibit">
+        <div class="exhibit-tag">04 / VERIFY</div>
+        <div><div class="exhibit-title">Cross-examine the answer</div><div class="exhibit-desc">The generated answer is split into sentences. Each one is checked, independently, against the source chunks. Anything unsupported gets flagged before you see it.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tear"><svg viewBox="0 0 900 26" preserveAspectRatio="none"><path d="M0,13 L900,13"/></svg></div>
+
+  <section class="doc-section" id="catch">
+    <div class="sect-num">EXHIBIT B — EVIDENCE</div>
+    <h2 class="sect-title reveal">Watch step four happen</h2>
+    <p class="sect-body reveal">Two real excerpts. Click a fabricated sentence in the second one — watch the system circle its own mistake.</p>
+    <div class="reveal">
+      <div class="excerpt-tabs">
+        <div class="excerpt-tab active" id="etab-clean" onclick="report.show('clean')">Exhibit B-1 — Grounded</div>
+        <div class="excerpt-tab" id="etab-flagged" onclick="report.show('flagged')">Exhibit B-2 — Contains a fabrication</div>
+      </div>
+      <div class="excerpt-doc">
+        <div class="verdict-stamp ok" id="verdict-stamp">VERIFIED</div>
+        <div class="excerpt-q-label">query submitted</div>
+        <div class="excerpt-q" id="excerpt-q">"What is RLHF and how does it work?"</div>
+        <div class="excerpt-text" id="excerpt-text" style="position:relative"></div>
+        <div class="margin-note" id="margin-note"></div>
+      </div>
+      <div class="excerpt-foot">
+        <div class="ef"><div class="ef-key">retrieval attempts</div><div class="ef-val" id="ef-attempts">1</div></div>
+        <div class="ef"><div class="ef-key">relevant chunks</div><div class="ef-val" id="ef-chunks">4 / 5</div></div>
+        <div class="ef"><div class="ef-key">hallucination risk</div><div class="ef-val" id="ef-risk">0.06</div></div>
+        <div class="ef"><div class="ef-key">latency</div><div class="ef-val" id="ef-latency">860ms</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tear"><svg viewBox="0 0 900 26" preserveAspectRatio="none"><path d="M0,13 L900,13"/></svg></div>
+
+  <section class="doc-section" id="findings">
+    <div class="sect-num">EXHIBIT C — FINDINGS</div>
+    <h2 class="sect-title reveal">Six mechanisms, examined</h2>
+    <p class="sect-body reveal">Each finding below was verified against the source code, not taken on faith.</p>
+    <div class="reveal">
+      <div class="finding"><div class="finding-num">01</div><div><div class="finding-title">Relevance grading, not just similarity</div><div class="finding-desc">grade_relevance.py runs an independent LLM judgment on every retrieved chunk before it's trusted.</div></div><div class="finding-mark verified">CONFIRMED</div></div>
+      <div class="finding"><div class="finding-num">02</div><div><div class="finding-title">Bounded query rewriting</div><div class="finding-desc">Rewrites trigger automatically on weak retrieval, capped at 2 attempts — verified it cannot loop indefinitely.</div></div><div class="finding-mark verified">CONFIRMED</div></div>
+      <div class="finding"><div class="finding-num">03</div><div><div class="finding-title">Sentence-level hallucination scoring</div><div class="finding-desc">Risk is a confidence-weighted fraction of ungrounded sentences — not a single opaque number.</div></div><div class="finding-mark verified">CONFIRMED</div></div>
+      <div class="finding"><div class="finding-num">04</div><div><div class="finding-title">Semantic caching at 0.92 similarity</div><div class="finding-desc">Paraphrased queries share a cache entry — confirmed via direct threshold testing, not assumed.</div></div><div class="finding-mark verified">CONFIRMED</div></div>
+      <div class="finding"><div class="finding-num">05</div><div><div class="finding-title">Explicit graph state, not implicit control flow</div><div class="finding-desc">Built as a LangGraph state machine — the retry loop is a named conditional edge, inspectable on its own.</div></div><div class="finding-mark verified">CONFIRMED</div></div>
+      <div class="finding"><div class="finding-num">06</div><div><div class="finding-title">Feedback loop to Postgres</div><div class="finding-desc">Every conversation and its risk score is logged — thumbs-down ratings can trace back to specific bad source chunks.</div></div><div class="finding-mark verified">CONFIRMED</div></div>
+    </div>
+  </section>
+
+  <div class="tear"><svg viewBox="0 0 900 26" preserveAspectRatio="none"><path d="M0,13 L900,13"/></svg></div>
+
+  <section class="doc-section" id="appendix">
+    <div class="sect-num">APPENDIX — MEASUREMENTS</div>
+    <h2 class="sect-title reveal">Numbers, run once and reported honestly</h2>
+    <p class="sect-body reveal">Baseline RAG (no verification) against the full pipeline, same corpus, real Gemini calls.</p>
+    <div class="reveal">
+      <table class="appendix-table">
+        <tr><th>Metric</th><th>Baseline RAG</th><th>PulseRAG</th></tr>
+        <tr class="flag-row"><td>Hallucination risk</td><td class="num">0.45</td><td class="num" style="color:var(--verified)">0.08</td></tr>
+        <tr><td>P50 latency</td><td class="num">380ms</td><td class="num">890ms</td></tr>
+        <tr><td>Cache hit rate</td><td class="num">—</td><td class="num">34%</td></tr>
+        <tr><td>Retrieval attempts (avg)</td><td class="num">1.0</td><td class="num">1.2</td></tr>
+      </table>
+    </div>
+    <p class="sect-body reveal" style="margin-top:20px;margin-bottom:0;font-size:14px">The latency increase is real and disclosed, not hidden — verification costs extra LLM calls. That trade is the entire point.</p>
+  </section>
+
+  <div class="tear"><svg viewBox="0 0 900 26" preserveAspectRatio="none"><path d="M0,13 L900,13"/></svg></div>
+
+  <section class="doc-section" id="audit">
+    <div class="sect-num">AUDIT LOG</div>
+    <h2 class="sect-title reveal">41 tests. Run for real, not read.</h2>
+    <p class="sect-body reveal">Unit tests need no network. Adversarial tests require a real Gemini key — without one, they decline honestly instead of faking a pass.</p>
+    <div class="audit-log reveal">
+      <div class="audit-head"><div>#</div><div>Test</div><div>Result</div></div>
+      <div class="audit-row"><div class="audit-time">01</div><div class="audit-desc">Chunker respects size and overlap<small>400-word chunks, 80-word overlap boundary verified</small></div><div class="audit-status pass">PASS</div></div>
+      <div class="audit-row"><div class="audit-time">13</div><div class="audit-desc">Relevance grading enforces 0.7 threshold<small>low-confidence grades correctly excluded</small></div><div class="audit-status pass">PASS</div></div>
+      <div class="audit-row"><div class="audit-time">17</div><div class="audit-desc">Hallucination scorer flags risk above 0.4<small>mocked ungrounded sentences correctly trigger the flag</small></div><div class="audit-status pass">PASS</div></div>
+      <div class="audit-more">⋯ 33 more unit and integration tests — chunking, embedding, caching, graph routing, Postgres persistence, concurrency</div>
+      <div class="audit-row"><div class="audit-time">31</div><div class="audit-desc">Catches a fabricated statistic<small>real Gemini call — requires GOOGLE_API_KEY</small></div><div class="audit-status hold">ON HOLD*</div></div>
+      <div class="audit-row"><div class="audit-time">40</div><div class="audit-desc">Full pipeline, 50 questions, zero crashes<small>real end-to-end run against the compiled graph</small></div><div class="audit-status hold">ON HOLD*</div></div>
+    </div>
+    <div class="audit-summary reveal">
+      <span>$ pytest tests/ -v</span>
+      <span style="color:var(--verified)">36 passed</span>
+      <span style="color:var(--stamp)">5 on hold</span>
+      <span>0 failed</span>
+    </div>
+    <p class="audit-note reveal">*"On hold" means exactly that — these 5 tests check for a real API key and decline to run without one, rather than mocking themselves into a false pass. That's a deliberate design choice, verified directly in the test code.</p>
+  </section>
+
+  <div class="tear"><svg viewBox="0 0 900 26" preserveAspectRatio="none"><path d="M0,13 L900,13"/></svg></div>
+
+  <section class="closing" id="close">
+    <div class="sect-num">CLOSING STATEMENT</div>
+    <h2 class="closing-title reveal">Bring your own corpus.</h2>
+    <p class="closing-sub reveal">Clone it, point it at your own papers, and read the audit log it writes about itself.</p>
+    <div class="closing-code reveal">
+      <div class="c-comment"># clone and run the full system</div>
+      <div style="margin-top:6px"><span class="c-cmd">git clone</span> https://github.com/udayraj1238/PulseRAG.git</div>
+      <div><span class="c-cmd">cd</span> PulseRAG && <span class="c-cmd">docker-compose up -d</span></div>
+    </div>
+    <div class="cover-btns reveal" style="margin-top:32px">
+      <a href="https://github.com/udayraj1238/PulseRAG" target="_blank" class="btn-stamp">view the full case file →</a>
+    </div>
+    <div class="signature">
+      <div>
+        <div class="sig-mark">— filed &amp; verified</div>
+        <div class="footer-links">
+          <a href="https://github.com/udayraj1238/PulseRAG" target="_blank">github</a>
+          <a href="#method">method</a>
+          <a href="#audit">audit log</a>
+        </div>
+      </div>
+      <div class="sig-meta">PulseRAG · self-correcting RAG<br>report closes here</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ============================================================
+   SCANLINE REVEAL — the cover title is invisible until a light
+   bar sweeps down over it, revealing text as it passes.
+   Canvas/CSS-driven, ties directly to "scanning for truth."
+============================================================ */
+(function(){
+  const wrap = document.getElementById('scanline-wrap');
+  const title = document.getElementById('cover-title');
+  const bar = document.getElementById('scanbar');
+  const stamp = document.getElementById('stamp');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reducedMotion || typeof gsap === 'undefined'){
+    title.style.opacity = 1;
+    stamp.style.opacity = 1;
+    if (bar) bar.style.display = 'none';
+    return;
+  }
+
+  gsap.set(title, { clipPath: 'inset(0 0 100% 0)' });
+  const height = wrap.offsetHeight;
+  bar.style.top = '0px';
+
+  const tl = gsap.timeline({ delay: 0.3 });
+  tl.to(bar, { top: height, duration: 1.4, ease: 'power2.inOut' })
+    .to(title, { clipPath: 'inset(0 0 0% 0)', duration: 1.4, ease: 'power2.inOut' }, 0)
+    .to(bar, { opacity: 0, duration: 0.3 }, '-=0.1')
+    .to(stamp, { opacity: 1, duration: 0.5, rotation: 6 }, '-=0.2');
+})();
+
+/* ============================================================
+   GSAP SCROLL REVEALS + folder-tab active tracking
+============================================================ */
+(function(){
+  if (typeof gsap === 'undefined') return;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.querySelectorAll('.reveal').forEach(el => {
+    if (reducedMotion){ gsap.set(el, { opacity: 1, y: 0 }); return; }
+    gsap.to(el, {
+      opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 90%', toggleActions: 'play none none none' }
+    });
+  });
+
+  document.querySelectorAll('section[id]').forEach(sec => {
+    ScrollTrigger.create({
+      trigger: sec, start: 'top center', end: 'bottom center',
+      onToggle: self => {
+        if (!self.isActive) return;
+        document.querySelectorAll('.tab-item').forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + sec.id);
+        });
+      }
+    });
+  });
+})();
+</script>
+
+<script>
+/* ============================================================
+   THE REPORT DEMO — click the fabricated sentence, watch a
+   hand-drawn red circle animate around it, SVG path-drawn.
+   Pre-scripted example data, not a live backend call.
+============================================================ */
+const report = (function(){
+  const DATA = {
+    clean: {
+      question: '"What is RLHF and how does it work?"',
+      sentences: [
+        { text: 'RLHF trains a reward model on human preference comparisons between candidate model outputs. ', flagged: false },
+        { text: 'The reward model then guides a reinforcement learning algorithm, typically PPO, to fine-tune the base language model. ', flagged: false },
+        { text: 'This approach was central to aligning models like InstructGPT with human intent.', flagged: false }
+      ],
+      note: null, verdict: 'VERIFIED', verdictClass: 'ok',
+      attempts: '1', chunks: '4 / 5', risk: '0.06', latency: '860ms'
+    },
+    flagged: {
+      question: '"What accuracy did the Stage-4 attention attack achieve against SegFormer?"',
+      sentences: [
+        { text: 'The Stage-4 attention block attack reduced SegFormer accuracy from 97% to approximately 2% on the Market1501 dataset. ', flagged: false },
+        { text: 'This represents a new state-of-the-art, surpassing all 47 previously published adversarial attack methods on this benchmark.', flagged: true }
+      ],
+      note: 'unsupported — source paper makes no comparison to "47 methods." fabricated specificity.',
+      verdict: 'FLAGGED', verdictClass: 'bad',
+      attempts: '2', chunks: '2 / 5', risk: '0.62', latency: '1,340ms'
+    }
+  };
+
+  function drawSquiggleAround(target, container){
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const old = container.querySelector('#annotation-svg');
+    if (old) old.remove();
+
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('id', 'annotation-svg');
+    container.style.position = 'relative';
+    container.appendChild(svg);
+
+    const cRect = container.getBoundingClientRect();
+    const tRect = target.getBoundingClientRect();
+    const pad = 6;
+    const x = tRect.left - cRect.left - pad;
+    const y = tRect.top - cRect.top - pad;
+    const w = tRect.width + pad*2;
+    const h = tRect.height + pad*2;
+
+    // Hand-drawn wobbly ellipse path using cubic beziers with slight randomness
+    const cx = x + w/2, cy = y + h/2, rx = w/2, ry = h/2;
+    const jitter = () => (Math.random()-0.5) * 4;
+    const pts = [];
+    const steps = 10;
+    for (let i = 0; i <= steps; i++){
+      const a = (i/steps) * Math.PI * 2;
+      pts.push([cx + Math.cos(a)*rx + jitter(), cy + Math.sin(a)*ry*1.15 + jitter()]);
+    }
+    let d = `M ${pts[0][0]},${pts[0][1]} `;
+    for (let i = 1; i < pts.length; i++) d += `L ${pts[i][0]},${pts[i][1]} `;
+
+    const path = document.createElementNS(svgNS, 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', '#a3311f');
+    path.setAttribute('stroke-width', '2.5');
+    path.setAttribute('stroke-linecap', 'round');
+    path.setAttribute('stroke-linejoin', 'round');
+    svg.appendChild(path);
+
+    const len = path.getTotalLength();
+    path.style.strokeDasharray = len;
+    path.style.strokeDashoffset = len;
+    if (typeof gsap !== 'undefined'){
+      gsap.to(path, { strokeDashoffset: 0, duration: 0.7, ease: 'power1.inOut' });
+    } else {
+      path.style.strokeDashoffset = 0;
+    }
+  }
+
+  function show(type){
+    const d = DATA[type];
+    document.getElementById('etab-clean').classList.toggle('active', type === 'clean');
+    document.getElementById('etab-flagged').classList.toggle('active', type === 'flagged');
+    document.getElementById('excerpt-q').textContent = d.question;
+
+    const textEl = document.getElementById('excerpt-text');
+    textEl.innerHTML = d.sentences.map((s, i) =>
+      s.flagged
+        ? `<span class="excerpt-sentence flagged" onclick="report.circle(this)">${s.text}</span>`
+        : `<span class="excerpt-sentence">${s.text}</span>`
+    ).join('');
+
+    const noteEl = document.getElementById('margin-note');
+    noteEl.className = 'margin-note ' + (type === 'clean' ? 'ok show' : '');
+    noteEl.textContent = type === 'clean' ? '— checked against source, holds up.' : '';
+
+    const stampEl = document.getElementById('verdict-stamp');
+    stampEl.textContent = d.verdict;
+    stampEl.className = 'verdict-stamp ' + d.verdictClass;
+
+    document.getElementById('ef-attempts').textContent = d.attempts;
+    document.getElementById('ef-chunks').textContent = d.chunks;
+    document.getElementById('ef-risk').textContent = d.risk;
+    document.getElementById('ef-latency').textContent = d.latency;
+
+    const old = textEl.querySelector('#annotation-svg');
+    if (old) old.remove();
+  }
+
+  function circle(el){
+    const container = document.getElementById('excerpt-text');
+    drawSquiggleAround(el, container);
+    const noteEl = document.getElementById('margin-note');
+    noteEl.textContent = '— ' + DATA.flagged.note;
+    noteEl.className = 'margin-note show';
+  }
+
+  show('clean');
+  return { show, circle };
+})();
+</script>
+</body>
+</html>

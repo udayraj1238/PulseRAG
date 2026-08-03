@@ -1,5 +1,6 @@
 # PulseRAG: Autonomous Self-Correcting Research Assistant
 
+**[→ Live project showcase](https://udayraj1238.github.io/PulseRAG/)**
 PulseRAG is an advanced Retrieval-Augmented Generation (RAG) system engineered to ingest machine learning research papers (arXiv) and synthesize highly accurate, grounded answers to complex queries. 
 
 Built on a deterministic StateGraph architecture, PulseRAG features autonomous self-correction mechanisms that actively grade the relevance of retrieved chunks, rewrite queries during failure states, and score the output for hallucination risks prior to delivering it to the user.
