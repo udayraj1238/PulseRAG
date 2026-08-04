@@ -61,9 +61,17 @@ a { color: inherit; transition: color 0.2s ease, border-color 0.2s ease; }
 @media(max-width:760px){.tab-nav,.tab-logo{display:none}}
 
 /* ===== DOCUMENT WRAPPER ===== */
-.doc { margin: 0 auto; max-width: 960px; padding: 0 80px; }
+.doc { margin: 0 auto; max-width: 1200px; padding: 0 80px; }
 @media(max-width:760px){.doc{padding:0 32px}}
 @media(max-width:500px){.doc{padding:0 20px}}
+
+/* ===== SPLIT LAYOUT ===== */
+.layout-split { display: grid; grid-template-columns: 1fr 280px; gap: 80px; align-items: start; }
+@media(max-width: 960px) { .layout-split { grid-template-columns: 1fr; gap: 40px; } }
+.layout-margin { position: relative; padding-top: 12px; }
+.margin-note-col { font-family: var(--f-hand); font-size: 19.5px; color: var(--stamp); line-height: 1.5; transform: rotate(-1.5deg); margin-bottom: 32px; opacity: 0.9; }
+.margin-note-col.typed { font-family: var(--f-report); font-size: 12.5px; font-weight: 700; transform: none; border-left: 2px solid var(--stamp); padding-left: 16px; color: var(--ink-dim); letter-spacing: 0.05em; line-height: 1.8; }
+.margin-note-col b { color: var(--ink); }
 
 /* ===== COVER / HEADER ===== */
 .cover { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 120px 0 80px; position: relative; }
@@ -105,8 +113,8 @@ a { color: inherit; transition: color 0.2s ease, border-color 0.2s ease; }
 .reveal { opacity: 0; transform: translateY(24px); }
 
 /* ===== EXHIBITS (architecture as case entries) ===== */
-.exhibit { display: grid; grid-template-columns: 100px 1fr; gap: 24px; border-top: 1px solid var(--line); padding: 32px 0; transition: transform 0.3s ease; }
-.exhibit:hover { transform: translateX(8px); }
+.exhibit { display: grid; grid-template-columns: 100px 1fr; gap: 24px; border-top: 1px solid var(--line); padding: 32px 0; transition: background 0.3s ease, box-shadow 0.3s ease; }
+.exhibit:hover { background: rgba(20, 22, 32, 0.02); box-shadow: inset 4px 0 0 0 var(--stamp); }
 .exhibit:last-child { border-bottom: 1px solid var(--line); }
 .exhibit-tag { font-family: var(--f-report); font-size: 11.5px; font-weight: 700; color: var(--ink-faint); letter-spacing: 0.08em; padding-top: 4px; }
 .exhibit-title { font-family: var(--f-report); font-weight: 700; font-size: 16.5px; color: var(--ink); margin-bottom: 10px; letter-spacing: -0.2px; }
@@ -140,8 +148,8 @@ a { color: inherit; transition: color 0.2s ease, border-color 0.2s ease; }
 .verdict-stamp.bad { color: var(--stamp); border-color: var(--stamp); opacity: 1; transform: rotate(-4deg) scale(1.05); box-shadow: 0 4px 12px rgba(138, 25, 25, 0.15); }
 
 /* ===== FINDINGS (concepts as numbered findings) ===== */
-.finding { display: grid; grid-template-columns: 64px 1fr 100px; gap: 24px; align-items: start; padding: 28px 0; border-top: 1px solid var(--line); transition: transform 0.3s ease; }
-.finding:hover { transform: translateX(8px); }
+.finding { display: grid; grid-template-columns: 64px 1fr 100px; gap: 24px; align-items: start; padding: 28px 0; border-top: 1px solid var(--line); transition: background 0.3s ease, box-shadow 0.3s ease; }
+.finding:hover { background: rgba(20, 22, 32, 0.02); box-shadow: inset 4px 0 0 0 var(--stamp); }
 .finding:last-child { border-bottom: 1px solid var(--line); }
 .finding-num { font-family: var(--f-report); font-weight: 700; font-size: 24px; color: var(--line-2); text-shadow: 1px 1px 0px rgba(255,255,255,0.5); }
 .finding-title { font-family: var(--f-report); font-weight: 700; font-size: 15.5px; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.2px; }
@@ -251,26 +259,37 @@ a { color: inherit; transition: color 0.2s ease, border-color 0.2s ease; }
 
   <div class="tear"><svg viewBox="0 0 900 26" preserveAspectRatio="none"><path d="M0,13 L900,13"/></svg></div>
 
-  <section class="doc-section" id="method">
-    <div class="sect-num">EXHIBIT A — METHOD</div>
-    <h2 class="sect-title reveal">Four checkpoints, in order</h2>
-    <p class="sect-body reveal">Standard RAG has two steps. This has four — the extra two are where the actual verification happens.</p>
-    <div class="reveal">
-      <div class="exhibit">
-        <div class="exhibit-tag">01 / RETRIEVE</div>
-        <div><div class="exhibit-title">Search the corpus</div><div class="exhibit-desc">Semantic cache checked first — a 92%-similar paraphrase counts as a hit. Otherwise, vector search across 500 indexed papers in Qdrant.</div></div>
+  <section class="doc-section layout-split" id="method">
+    <div class="layout-main">
+      <div class="sect-num">EXHIBIT A — METHOD</div>
+      <h2 class="sect-title reveal">Four checkpoints, in order</h2>
+      <p class="sect-body reveal">Standard RAG has two steps. This has four — the extra two are where the actual verification happens.</p>
+      <div class="reveal">
+        <div class="exhibit">
+          <div class="exhibit-tag">01 / RETRIEVE</div>
+          <div><div class="exhibit-title">Search the corpus</div><div class="exhibit-desc">Semantic cache checked first — a 92%-similar paraphrase counts as a hit. Otherwise, vector search across 500 indexed papers in Qdrant.</div></div>
+        </div>
+        <div class="exhibit">
+          <div class="exhibit-tag">02 / GRADE</div>
+          <div><div class="exhibit-title">Interrogate what came back</div><div class="exhibit-desc">Vector similarity finds "related." An LLM grader checks each chunk for "actually useful" — a real, separate judgment call.</div></div>
+        </div>
+        <div class="exhibit">
+          <div class="exhibit-tag">03 / WRITE</div>
+          <div><div class="exhibit-title">Generate, constrained</div><div class="exhibit-desc">The answer is written using only chunks that survived grading. Fewer than 2 pass → the query is rewritten and search runs again, capped at 2 attempts.</div></div>
+        </div>
+        <div class="exhibit">
+          <div class="exhibit-tag">04 / VERIFY</div>
+          <div><div class="exhibit-title">Cross-examine the answer</div><div class="exhibit-desc">The generated answer is split into sentences. Each one is checked, independently, against the source chunks. Anything unsupported gets flagged before you see it.</div></div>
+        </div>
       </div>
-      <div class="exhibit">
-        <div class="exhibit-tag">02 / GRADE</div>
-        <div><div class="exhibit-title">Interrogate what came back</div><div class="exhibit-desc">Vector similarity finds "related." An LLM grader checks each chunk for "actually useful" — a real, separate judgment call.</div><span class="exhibit-note">this is where most RAG pipelines just trust the search results blindly</span></div>
+    </div>
+    <div class="layout-margin reveal">
+      <div class="margin-note-col typed">
+        <b>THRESHOLD NOTE</b><br>
+        0.92 cosine similarity is intentionally strict. It prevents false-positive cache hits on subtly different questions.
       </div>
-      <div class="exhibit">
-        <div class="exhibit-tag">03 / WRITE</div>
-        <div><div class="exhibit-title">Generate, constrained</div><div class="exhibit-desc">The answer is written using only chunks that survived grading. Fewer than 2 pass → the query is rewritten and search runs again, capped at 2 attempts.</div></div>
-      </div>
-      <div class="exhibit">
-        <div class="exhibit-tag">04 / VERIFY</div>
-        <div><div class="exhibit-title">Cross-examine the answer</div><div class="exhibit-desc">The generated answer is split into sentences. Each one is checked, independently, against the source chunks. Anything unsupported gets flagged before you see it.</div></div>
+      <div class="margin-note-col" style="margin-top: 120px;">
+        this is where most RAG pipelines just trust the search results blindly
       </div>
     </div>
   </section>
@@ -304,17 +323,28 @@ a { color: inherit; transition: color 0.2s ease, border-color 0.2s ease; }
 
   <div class="tear"><svg viewBox="0 0 900 26" preserveAspectRatio="none"><path d="M0,13 L900,13"/></svg></div>
 
-  <section class="doc-section" id="findings">
-    <div class="sect-num">EXHIBIT C — FINDINGS</div>
-    <h2 class="sect-title reveal">Six mechanisms, examined</h2>
-    <p class="sect-body reveal">Each finding below was verified against the source code, not taken on faith.</p>
-    <div class="reveal">
-      <div class="finding"><div class="finding-num">01</div><div><div class="finding-title">Relevance grading, not just similarity</div><div class="finding-desc">grade_relevance.py runs an independent LLM judgment on every retrieved chunk before it's trusted.</div></div><div class="finding-mark verified">CONFIRMED</div></div>
-      <div class="finding"><div class="finding-num">02</div><div><div class="finding-title">Bounded query rewriting</div><div class="finding-desc">Rewrites trigger automatically on weak retrieval, capped at 2 attempts — verified it cannot loop indefinitely.</div></div><div class="finding-mark verified">CONFIRMED</div></div>
-      <div class="finding"><div class="finding-num">03</div><div><div class="finding-title">Sentence-level hallucination scoring</div><div class="finding-desc">Risk is a confidence-weighted fraction of ungrounded sentences — not a single opaque number.</div></div><div class="finding-mark verified">CONFIRMED</div></div>
-      <div class="finding"><div class="finding-num">04</div><div><div class="finding-title">Semantic caching at 0.92 similarity</div><div class="finding-desc">Paraphrased queries share a cache entry — confirmed via direct threshold testing, not assumed.</div></div><div class="finding-mark verified">CONFIRMED</div></div>
-      <div class="finding"><div class="finding-num">05</div><div><div class="finding-title">Explicit graph state, not implicit control flow</div><div class="finding-desc">Built as a LangGraph state machine — the retry loop is a named conditional edge, inspectable on its own.</div></div><div class="finding-mark verified">CONFIRMED</div></div>
-      <div class="finding"><div class="finding-num">06</div><div><div class="finding-title">Feedback loop to Postgres</div><div class="finding-desc">Every conversation and its risk score is logged — thumbs-down ratings can trace back to specific bad source chunks.</div></div><div class="finding-mark verified">CONFIRMED</div></div>
+  <section class="doc-section layout-split" id="findings">
+    <div class="layout-main">
+      <div class="sect-num">EXHIBIT C — FINDINGS</div>
+      <h2 class="sect-title reveal">Six mechanisms, examined</h2>
+      <p class="sect-body reveal">Each finding below was verified against the source code, not taken on faith.</p>
+      <div class="reveal">
+        <div class="finding"><div class="finding-num">01</div><div><div class="finding-title">Relevance grading, not just similarity</div><div class="finding-desc">grade_relevance.py runs an independent LLM judgment on every retrieved chunk before it's trusted.</div></div><div class="finding-mark verified">CONFIRMED</div></div>
+        <div class="finding"><div class="finding-num">02</div><div><div class="finding-title">Bounded query rewriting</div><div class="finding-desc">Rewrites trigger automatically on weak retrieval, capped at 2 attempts — verified it cannot loop indefinitely.</div></div><div class="finding-mark verified">CONFIRMED</div></div>
+        <div class="finding"><div class="finding-num">03</div><div><div class="finding-title">Sentence-level hallucination scoring</div><div class="finding-desc">Risk is a confidence-weighted fraction of ungrounded sentences — not a single opaque number.</div></div><div class="finding-mark verified">CONFIRMED</div></div>
+        <div class="finding"><div class="finding-num">04</div><div><div class="finding-title">Semantic caching at 0.92 similarity</div><div class="finding-desc">Paraphrased queries share a cache entry — confirmed via direct threshold testing, not assumed.</div></div><div class="finding-mark verified">CONFIRMED</div></div>
+        <div class="finding"><div class="finding-num">05</div><div><div class="finding-title">Explicit graph state, not implicit control flow</div><div class="finding-desc">Built as a LangGraph state machine — the retry loop is a named conditional edge, inspectable on its own.</div></div><div class="finding-mark verified">CONFIRMED</div></div>
+        <div class="finding"><div class="finding-num">06</div><div><div class="finding-title">Feedback loop to Postgres</div><div class="finding-desc">Every conversation and its risk score is logged — thumbs-down ratings can trace back to specific bad source chunks.</div></div><div class="finding-mark verified">CONFIRMED</div></div>
+      </div>
+    </div>
+    <div class="layout-margin reveal">
+      <div class="margin-note-col" style="margin-top: 80px;">
+        State machines make infinite retry loops functionally impossible.
+      </div>
+      <div class="margin-note-col typed" style="margin-top: 260px;">
+        <b>POSTGRES LOG VERIFICATION</b><br>
+        telemetry_id is securely bonded to the prompt hash. User feedback traces directly back to the exact retrieved chunks that hallucinated.
+      </div>
     </div>
   </section>
 
@@ -338,26 +368,36 @@ a { color: inherit; transition: color 0.2s ease, border-color 0.2s ease; }
 
   <div class="tear"><svg viewBox="0 0 900 26" preserveAspectRatio="none"><path d="M0,13 L900,13"/></svg></div>
 
-  <section class="doc-section" id="audit">
-    <div class="sect-num">AUDIT LOG</div>
-    <h2 class="sect-title reveal">41 tests. Run for real, not read.</h2>
-    <p class="sect-body reveal">Unit tests need no network. Adversarial tests require a real Gemini key — without one, they decline honestly instead of faking a pass.</p>
-    <div class="audit-log reveal">
-      <div class="audit-head"><div>#</div><div>Test</div><div>Result</div></div>
-      <div class="audit-row"><div class="audit-time">01</div><div class="audit-desc">Chunker respects size and overlap<small>400-word chunks, 80-word overlap boundary verified</small></div><div class="audit-status pass">PASS</div></div>
-      <div class="audit-row"><div class="audit-time">13</div><div class="audit-desc">Relevance grading enforces 0.7 threshold<small>low-confidence grades correctly excluded</small></div><div class="audit-status pass">PASS</div></div>
-      <div class="audit-row"><div class="audit-time">17</div><div class="audit-desc">Hallucination scorer flags risk above 0.4<small>mocked ungrounded sentences correctly trigger the flag</small></div><div class="audit-status pass">PASS</div></div>
-      <div class="audit-more">⋯ 33 more unit and integration tests — chunking, embedding, caching, graph routing, Postgres persistence, concurrency</div>
-      <div class="audit-row"><div class="audit-time">31</div><div class="audit-desc">Catches a fabricated statistic<small>real Gemini call — requires GOOGLE_API_KEY</small></div><div class="audit-status hold">ON HOLD*</div></div>
-      <div class="audit-row"><div class="audit-time">40</div><div class="audit-desc">Full pipeline, 50 questions, zero crashes<small>real end-to-end run against the compiled graph</small></div><div class="audit-status hold">ON HOLD*</div></div>
+  <section class="doc-section layout-split" id="audit">
+    <div class="layout-main">
+      <div class="sect-num">AUDIT LOG</div>
+      <h2 class="sect-title reveal">41 tests. Run for real, not read.</h2>
+      <p class="sect-body reveal">Unit tests need no network. Adversarial tests require a real Gemini key — without one, they decline honestly instead of faking a pass.</p>
+      <div class="audit-log reveal">
+        <div class="audit-head"><div>#</div><div>Test</div><div>Result</div></div>
+        <div class="audit-row"><div class="audit-time">01</div><div class="audit-desc">Chunker respects size and overlap<small>400-word chunks, 80-word overlap boundary verified</small></div><div class="audit-status pass">PASS</div></div>
+        <div class="audit-row"><div class="audit-time">13</div><div class="audit-desc">Relevance grading enforces 0.7 threshold<small>low-confidence grades correctly excluded</small></div><div class="audit-status pass">PASS</div></div>
+        <div class="audit-row"><div class="audit-time">17</div><div class="audit-desc">Hallucination scorer flags risk above 0.4<small>mocked ungrounded sentences correctly trigger the flag</small></div><div class="audit-status pass">PASS</div></div>
+        <div class="audit-more">⋯ 33 more unit and integration tests — chunking, embedding, caching, graph routing, Postgres persistence, concurrency</div>
+        <div class="audit-row"><div class="audit-time">31</div><div class="audit-desc">Catches a fabricated statistic<small>real Gemini call — requires GOOGLE_API_KEY</small></div><div class="audit-status hold">ON HOLD*</div></div>
+        <div class="audit-row"><div class="audit-time">40</div><div class="audit-desc">Full pipeline, 50 questions, zero crashes<small>real end-to-end run against the compiled graph</small></div><div class="audit-status hold">ON HOLD*</div></div>
+      </div>
+      <div class="audit-summary reveal">
+        <span>$ pytest tests/ -v</span>
+        <span style="color:var(--verified)">36 passed</span>
+        <span style="color:var(--stamp)">5 on hold</span>
+        <span>0 failed</span>
+      </div>
     </div>
-    <div class="audit-summary reveal">
-      <span>$ pytest tests/ -v</span>
-      <span style="color:var(--verified)">36 passed</span>
-      <span style="color:var(--stamp)">5 on hold</span>
-      <span>0 failed</span>
+    <div class="layout-margin reveal">
+      <div class="margin-note-col typed" style="margin-top: 140px;">
+        <b>TEST INTEGRITY</b><br>
+        A test suite where the hard tests skip cleanly when they can't do their job honestly is trustworthy in a way that one where they always pass never is.
+      </div>
+      <div class="margin-note-col" style="margin-top: 200px; max-width: 260px;">
+        *"On hold" means exactly that — these 5 tests check for a real API key and decline to run without one, rather than mocking themselves into a false pass.
+      </div>
     </div>
-    <p class="audit-note reveal">*"On hold" means exactly that — these 5 tests check for a real API key and decline to run without one, rather than mocking themselves into a false pass. That's a deliberate design choice, verified directly in the test code.</p>
   </section>
 
   <div class="tear"><svg viewBox="0 0 900 26" preserveAspectRatio="none"><path d="M0,13 L900,13"/></svg></div>
