@@ -296,27 +296,35 @@ a { color: inherit; transition: color 0.2s ease, border-color 0.2s ease; }
 
   <div class="tear"><svg viewBox="0 0 900 26" preserveAspectRatio="none"><path d="M0,13 L900,13"/></svg></div>
 
-  <section class="doc-section" id="catch">
-    <div class="sect-num">EXHIBIT B — EVIDENCE</div>
-    <h2 class="sect-title reveal">Watch step four happen</h2>
-    <p class="sect-body reveal">Two real excerpts. Click a fabricated sentence in the second one — watch the system circle its own mistake.</p>
-    <div class="reveal">
-      <div class="excerpt-tabs">
-        <div class="excerpt-tab active" id="etab-clean" onclick="report.show('clean')">Exhibit B-1 — Grounded</div>
-        <div class="excerpt-tab" id="etab-flagged" onclick="report.show('flagged')">Exhibit B-2 — Contains a fabrication</div>
+  <section class="doc-section layout-split" id="catch">
+    <div class="layout-main">
+      <div class="sect-num">EXHIBIT B — EVIDENCE</div>
+      <h2 class="sect-title reveal">Watch step four happen</h2>
+      <p class="sect-body reveal">Two real excerpts. Click a fabricated sentence in the second one — watch the system circle its own mistake.</p>
+      <div class="reveal">
+        <div class="excerpt-tabs">
+          <div class="excerpt-tab active" id="etab-clean" onclick="report.show('clean')">Exhibit B-1 — Grounded</div>
+          <div class="excerpt-tab" id="etab-flagged" onclick="report.show('flagged')">Exhibit B-2 — Contains a fabrication</div>
+        </div>
+        <div class="excerpt-doc">
+          <div class="verdict-stamp ok" id="verdict-stamp">VERIFIED</div>
+          <div class="excerpt-q-label">query submitted</div>
+          <div class="excerpt-q" id="excerpt-q">"What is RLHF and how does it work?"</div>
+          <div class="excerpt-text" id="excerpt-text" style="position:relative"></div>
+          <div class="margin-note" id="margin-note"></div>
+        </div>
+        <div class="excerpt-foot">
+          <div class="ef"><div class="ef-key">retrieval attempts</div><div class="ef-val" id="ef-attempts">1</div></div>
+          <div class="ef"><div class="ef-key">relevant chunks</div><div class="ef-val" id="ef-chunks">4 / 5</div></div>
+          <div class="ef"><div class="ef-key">hallucination risk</div><div class="ef-val" id="ef-risk">0.06</div></div>
+          <div class="ef"><div class="ef-key">latency</div><div class="ef-val" id="ef-latency">860ms</div></div>
+        </div>
       </div>
-      <div class="excerpt-doc">
-        <div class="verdict-stamp ok" id="verdict-stamp">VERIFIED</div>
-        <div class="excerpt-q-label">query submitted</div>
-        <div class="excerpt-q" id="excerpt-q">"What is RLHF and how does it work?"</div>
-        <div class="excerpt-text" id="excerpt-text" style="position:relative"></div>
-        <div class="margin-note" id="margin-note"></div>
-      </div>
-      <div class="excerpt-foot">
-        <div class="ef"><div class="ef-key">retrieval attempts</div><div class="ef-val" id="ef-attempts">1</div></div>
-        <div class="ef"><div class="ef-key">relevant chunks</div><div class="ef-val" id="ef-chunks">4 / 5</div></div>
-        <div class="ef"><div class="ef-key">hallucination risk</div><div class="ef-val" id="ef-risk">0.06</div></div>
-        <div class="ef"><div class="ef-key">latency</div><div class="ef-val" id="ef-latency">860ms</div></div>
+    </div>
+    <div class="layout-margin reveal">
+      <div class="margin-note-col typed" style="margin-top: 180px;">
+        <b>FABRICATION TRAP</b><br>
+        The system relies entirely on source-grounding. When it writes an unverified claim, the risk score spikes immediately.
       </div>
     </div>
   </section>
@@ -350,20 +358,27 @@ a { color: inherit; transition: color 0.2s ease, border-color 0.2s ease; }
 
   <div class="tear"><svg viewBox="0 0 900 26" preserveAspectRatio="none"><path d="M0,13 L900,13"/></svg></div>
 
-  <section class="doc-section" id="appendix">
-    <div class="sect-num">APPENDIX — MEASUREMENTS</div>
-    <h2 class="sect-title reveal">Numbers, run once and reported honestly</h2>
-    <p class="sect-body reveal">Baseline RAG (no verification) against the full pipeline, same corpus, real Gemini calls.</p>
-    <div class="reveal">
-      <table class="appendix-table">
-        <tr><th>Metric</th><th>Baseline RAG</th><th>PulseRAG</th></tr>
-        <tr class="flag-row"><td>Hallucination risk</td><td class="num">0.45</td><td class="num" style="color:var(--verified)">0.08</td></tr>
-        <tr><td>P50 latency</td><td class="num">380ms</td><td class="num">890ms</td></tr>
-        <tr><td>Cache hit rate</td><td class="num">—</td><td class="num">34%</td></tr>
-        <tr><td>Retrieval attempts (avg)</td><td class="num">1.0</td><td class="num">1.2</td></tr>
-      </table>
+  <section class="doc-section layout-split" id="appendix">
+    <div class="layout-main">
+      <div class="sect-num">APPENDIX — MEASUREMENTS</div>
+      <h2 class="sect-title reveal">Numbers, run once and reported honestly</h2>
+      <p class="sect-body reveal">Baseline RAG (no verification) against the full pipeline, same corpus, real Gemini calls.</p>
+      <div class="reveal">
+        <table class="appendix-table">
+          <tr><th>Metric</th><th>Baseline RAG</th><th>PulseRAG</th></tr>
+          <tr class="flag-row"><td>Hallucination risk</td><td class="num">0.45</td><td class="num" style="color:var(--verified)">0.08</td></tr>
+          <tr><td>P50 latency</td><td class="num">380ms</td><td class="num">890ms</td></tr>
+          <tr><td>Cache hit rate</td><td class="num">—</td><td class="num">34%</td></tr>
+          <tr><td>Retrieval attempts (avg)</td><td class="num">1.0</td><td class="num">1.2</td></tr>
+        </table>
+      </div>
+      <p class="sect-body reveal" style="margin-top:20px;margin-bottom:0;font-size:14px">The latency increase is real and disclosed, not hidden — verification costs extra LLM calls. That trade is the entire point.</p>
     </div>
-    <p class="sect-body reveal" style="margin-top:20px;margin-bottom:0;font-size:14px">The latency increase is real and disclosed, not hidden — verification costs extra LLM calls. That trade is the entire point.</p>
+    <div class="layout-margin reveal">
+      <div class="margin-note-col" style="margin-top: 150px;">
+        You can't get verification without paying for it in latency. 890ms is a very fair trade for a 82% drop in hallucinations.
+      </div>
+    </div>
   </section>
 
   <div class="tear"><svg viewBox="0 0 900 26" preserveAspectRatio="none"><path d="M0,13 L900,13"/></svg></div>
